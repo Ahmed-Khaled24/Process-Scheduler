@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const {join} = require('path');
 
 let mainWindow;
@@ -7,10 +7,12 @@ app.on('ready', () => {
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
         }
     });
     mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));
-})
+}) 
 
-mai
+ipcMain.on('exit', (event) => {app.quit()});
+ipcMain.on('gotoAlgorithmWindow', (event, algoType) => {console.log(algoType)});
