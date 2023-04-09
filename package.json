@@ -1,0 +1,23 @@
+{
+  "name": "process-schedular",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main/main.ts",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahmed-Khaled24/Process-Schedular.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ahmed-Khaled24/Process-Schedular/issues"
+  },
+  "homepage": "https://github.com/Ahmed-Khaled24/Process-Schedular#readme",
+  "devDependencies": {
+    "electron": "^24.0.0"
+  }
+}
