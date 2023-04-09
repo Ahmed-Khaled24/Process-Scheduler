@@ -1,4 +1,5 @@
 const {app, BrowserWindow} = require('electron');
+const {join} = require('path');
 
 let mainWindow;
 app.on('ready', () => {
@@ -9,5 +10,7 @@ app.on('ready', () => {
             nodeIntegration: true
         }
     });
-    mainWindow.loadFile('index.html');
+    mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));
 })
+
+mai

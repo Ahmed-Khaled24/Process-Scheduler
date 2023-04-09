@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mainWindow.css">
+    <title>Process Schedular</title>
+</head>
+<body>
+     <h1>Process Schedular</h1>
+     <div class="main-question">
+        <h3> Choose the scheduling algorithm you want to try: </h3>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="fcfs"/>
+            <p> First Come First Served (FCFS) </p>
+        </div>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="pre-sjf"/>
+            <p> Preemptive Shortest Job First (SJF) </p>
+        </div>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="non-sjf"/>
+            <p> Non-preemptive Shortest Job First (SJF) </p>
+        </div>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="pre-priority"/>
+            <p> Preemptive Priority </p>
+        </div>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="non-priority"/>
+            <p> Non-preemptive Priority </p>
+        </div>
+        <div class='choice'>
+            <input type="radio" name="main-question" value="round-robin"/>
+            <p> Round Robin </p>
+        </div>
+     </div>
+     <div class="buttons">
+         <button> Exit </button>
+        <button> Next </button>
+     </div>
+</body>
+</html>
