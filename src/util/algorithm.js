@@ -7,12 +7,11 @@ const { EventEmitter } = require("stream");
 //     priority: number,
 // }
 
-function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
+  function promiseWait(ms) {
+    return new Promise((resolve) => {
+      wait(ms);
+      resolve();
+    });
   }
 
 class Algorithm extends EventEmitter {
@@ -24,7 +23,7 @@ class Algorithm extends EventEmitter {
 
   async nonPreemptivePriority() {
     this.inputProcesses.sort((a, b) => a.priorityy - b.priorityy);
-    this.inputProcesses.forEach((process) => {
+    for (const process of this.inputProcesses) {
       let sentSegment = {
         processId: process.processId,
         duration: {
@@ -32,10 +31,10 @@ class Algorithm extends EventEmitter {
           end: this.count + process.burstTime,
         },
       };
-      wait(process.burstTime * 1000 );
+      await promiseWait(process.burstTime );
       this.emit('draw', sentSegment);
       this.count += process.burstTime;
-    });
+    }
   }
 
   appendToQueue(process) {
@@ -44,12 +43,3 @@ class Algorithm extends EventEmitter {
 }
 
 module.exports = Algorithm;
-
-// {
-//     priorityy: 2,
-//     burstTime: 3,
-// }
-// {
-//     priorityy: 1,
-//     burstTime: 2,
-// }
