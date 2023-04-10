@@ -25,6 +25,7 @@ const alg = new Algorithm(processes);
 const tester = [];
 alg.on('draw', (segment) => {
     tester.push(segment);
+    console.log(segment);
 }); 
 
 alg.nonPreemptivePriority();
