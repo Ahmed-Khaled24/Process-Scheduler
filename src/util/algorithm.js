@@ -8,10 +8,11 @@ const { EventEmitter } = require("stream");
 // }
 
   function promiseWait(ms) {
-    return new Promise((resolve) => {
-      wait(ms);
-      resolve();
-    });
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve();
+			}, ms);
+		});
   }
 
 class Algorithm extends EventEmitter {
@@ -31,7 +32,7 @@ class Algorithm extends EventEmitter {
           end: this.count + process.burstTime,
         },
       };
-      await promiseWait(process.burstTime );
+      await promiseWait(process.burstTime * 1000);
       this.emit('draw', sentSegment);
       this.count += process.burstTime;
     }
