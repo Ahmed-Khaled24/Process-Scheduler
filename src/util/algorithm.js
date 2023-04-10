@@ -7,34 +7,71 @@ const { EventEmitter } = require("stream");
 //     priority: number,
 // }
 
-  function promiseWait(ms) {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve();
-			}, ms);
-		});
-  }
+function promiseWait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
 
 class Algorithm extends EventEmitter {
   constructor(inputProcesses) {
-    super(); 
+    super();
     this.inputProcesses = inputProcesses;
     this.count = 0;
   }
 
   async nonPreemptivePriority() {
-    this.inputProcesses.sort((a, b) => a.priorityy - b.priorityy);
-    for (const process of this.inputProcesses) {
-      let sentSegment = {
-        processId: process.processId,
-        duration: {
+    let CPU = false;
+    let currentProcess = null;
+    let timeout = 0;
+    while (true) {
+      if (this.inputProcesses.length == 0) {
+        timeout++;
+      }
+      if (timeout === 10) {
+        break;
+      }
+      let filteredProcesses = this.inputProcesses.filter(
+        (process) => process.arrivalTime <= this.count
+      );
+      filteredProcesses.sort((a, b) => a.priorityy - b.priorityy);
+
+      await promiseWait(1000);
+
+      if (filteredProcesses.length == 0) {
+        continue;
+      } else if (currentProcess === null) {
+        currentProcess = {
+          process: filteredProcesses[0],
           start: this.count,
-          end: this.count + process.burstTime,
-        },
-      };
-      await promiseWait(process.burstTime * 1000);
-      this.emit('draw', sentSegment);
-      this.count += process.burstTime;
+          end: this.count + filteredProcesses[0].burstTime,
+        };
+        this.emit("draw", {
+          Pid: currentProcess.process.processId,
+          start: currentProcess.start,
+          end: currentProcess.end,
+        });
+        CPU = true;
+      } else {
+        if (this.count == currentProcess.end) {
+          this.inputProcesses = this.inputProcesses.filter(
+            (process) => process.processId !== currentProcess.process.processId
+          );
+          currentProcess = null;
+          CPU = false;
+          this.count--;
+        } else {
+          this.emit("draw", {
+            Pid: currentProcess.process.processId,
+            start: currentProcess.start,
+            end: currentProcess.end,
+          });
+        }
+      }
+
+      this.count++;
     }
   }
 
