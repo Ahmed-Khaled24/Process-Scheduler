@@ -1,4 +1,5 @@
 const { EventEmitter } = require("stream");
+const { GUIProcess } = require("./Process");
 
 // type processes = {
 //     processId: number,
@@ -15,7 +16,7 @@ function promiseWait(ms) {
   });
 }
 
-class Algorithm extends EventEmitter {
+class Scheduler extends EventEmitter {
   constructor(inputProcesses) {
     super();
     this.inputProcesses = inputProcesses;
@@ -36,7 +37,7 @@ class Algorithm extends EventEmitter {
       let filteredProcesses = this.inputProcesses.filter(
         (process) => process.arrivalTime <= this.count
       );
-      filteredProcesses.sort((a, b) => a.priorityy - b.priorityy);
+      filteredProcesses.sort((a, b) => a.priority - b.priority);
 
       await promiseWait(1000);
 
@@ -48,11 +49,12 @@ class Algorithm extends EventEmitter {
           start: this.count,
           end: this.count + filteredProcesses[0].burstTime,
         };
-        this.emit("draw", {
-          Pid: currentProcess.process.processId,
-          start: currentProcess.start,
-          end: currentProcess.end,
-        });
+        // this.emit("draw", {
+        //   Pid: currentProcess.process.processId,
+        //   start: currentProcess.start,
+        //   end: currentProcess.end,
+        // });
+        this.emit("draw", new GUIProcess(currentProcess.process.processId, currentProcess.start, currentProcess.end));
         CPU = true;
       } else {
         if (this.count == currentProcess.end) {
@@ -63,11 +65,13 @@ class Algorithm extends EventEmitter {
           CPU = false;
           this.count--;
         } else {
-          this.emit("draw", {
-            Pid: currentProcess.process.processId,
-            start: currentProcess.start,
-            end: currentProcess.end,
-          });
+          // this.emit("draw", {
+          //   Pid: currentProcess.process.processId,
+          //   start: currentProcess.start,
+          //   end: currentProcess.end,
+          // });
+          this.emit("draw", new GUIProcess(currentProcess.process.processId, currentProcess.start, currentProcess.end));
+
         }
       }
 
@@ -80,4 +84,4 @@ class Algorithm extends EventEmitter {
   }
 }
 
-module.exports = Algorithm;
+module.exports = Scheduler;
