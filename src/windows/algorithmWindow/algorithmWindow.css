@@ -1,0 +1,94 @@
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Lato';
+    background-color: #E4DCCF;
+    color: #002B5B;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 40px;
+}
+section {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+button{
+    width: 100px;
+    padding: 8px 20px;
+    font-size: 18px;
+    color: white;
+    background-color: #EA5455;
+    opacity: 0.9;
+    border-radius: 5px;
+    border: none;
+}
+button:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.title{
+    position: absolute;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    top: -15px;
+    left: 0px;
+    font-weight: bold;
+    color: #002B5B;
+
+}
+
+ /* Form styling */
+.add-process-form{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px
+}
+#new-process-form input{
+    padding: 10px 15px;
+    width: fit-content;
+    width: 100%;
+    border: none;
+    font-family: inherit;
+    font-weight: 500;
+    border-radius: 5px;;
+    font-size: 14px;
+}
+#new-process-form input:focus-visible{
+    outline: 2px solid #EA5455;
+}
+#new-process-form{
+    display: flex;
+    flex: 1;
+    gap: 10px;
+}
+
+
+/* Table styling */
+.processes-table{
+    max-height: 40%;
+}
+.tabulator-headers {
+    font-size: 18px;
+    background-color: #ea54541a;
+}
+.tabulator-row{
+    font-size: 16px;
+}
+.tabulator-row-even .tabulator-cell{
+ background-color: #ea545413;
+}
+
+/* Chart */
+#chart-container {
+    padding: 30px;
+    display: flex;
+    gap: 10px;
+}
