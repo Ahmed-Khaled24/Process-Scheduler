@@ -22,7 +22,8 @@ alg.on('append', (process) => {
 })
 
 alg.nonPreemptivePriority();
-
+//short job first non premtive
+alg.sjfNonpreem(processes);
 
 setTimeout(() => {
     // alg.appendToQueue({
