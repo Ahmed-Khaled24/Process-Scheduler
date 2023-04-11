@@ -129,7 +129,7 @@ img {
     align-items: center;
     justify-content: center;
     transition-property: width;
-    transition-duration: 200ms;
+    transition-duration: 1s;
     transition-timing-function: linear;
 }
 .chart-segment-start-time {
