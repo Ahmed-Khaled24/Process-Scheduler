@@ -10,6 +10,7 @@ document.getElementById('back-btn').addEventListener('click', () => {
 })
 
 // Table definition
+let processId = 1;
 let table = new Tabulator("#processes-table", {
     columns:[
         {title: 'Process ID', field: 'processId', resizable: false},
@@ -25,8 +26,9 @@ let table = new Tabulator("#processes-table", {
 })
 // Add element to the table
 const addProcessBtn = document.getElementById('add-btn');
-addProcessBtn.addEventListener('click', () => {
-    const processId = Number(document.getElementById('process-id').value);
+const addProcessForm = document.querySelector('.add-process-form');
+addProcessForm.addEventListener('submit', (submitEvent) => {
+    submitEvent.preventDefault(); //  to prevent window reload
     const arrivalTime = Number(document.getElementById('arrival-time').value);
     const burstTime = Number(document.getElementById('burst-time').value);
     const priority = Number(document.getElementById('priority').value);
@@ -39,6 +41,7 @@ addProcessBtn.addEventListener('click', () => {
     if(ALGORITHM_STARTED){
         schedular.appendToQueue(new InputProcess(processId, arrivalTime, burstTime, priority));
     }
+    processId++; // increment the processId to be added automatically
 });
 
 
