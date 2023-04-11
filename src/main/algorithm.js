@@ -45,8 +45,8 @@ class Algorithm extends EventEmitter {
         "draw",
         new GUIProcess(
           sentSegment.processId,
-          sentSegment.start,
-          sentSegment.end
+          sentSegment.duration.start,
+          sentSegment.duration.end
         )
       );
       this.count += 1;
