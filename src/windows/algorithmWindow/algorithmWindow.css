@@ -90,7 +90,6 @@ img {
     gap: 10px;
 }
 
-
 /* Table styling */
 .processes-table{
     max-height: 40%;
@@ -110,7 +109,6 @@ img {
 .gantt-chart{
     padding-top: 40px;
     padding-bottom: 40px;
-    margin-bottom: 50px;
 }
 #chart-container {
     padding: 20px;
@@ -147,4 +145,9 @@ img {
     position: absolute;
     top: -15px;
     right: 0;
+}
+.final-calculations{
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-around;
 }

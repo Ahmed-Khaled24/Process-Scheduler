@@ -16,12 +16,11 @@
     <section class="add-process-form">
         <p class="title">Add New Process</p>
         <form id="new-process-form">
-            <input id="process-id" placeholder="Process Name">
-            <input id="arrival-time" placeholder="Arrival Time">
-            <input id="burst-time" placeholder="Burst Time">
-            <input id="priority" placeholder="Priority">
+            <input id="arrival-time" placeholder="Arrival Time" title="Numbers only" pattern="^[0-9]+$" required>
+            <input id="burst-time" placeholder="Burst Time" title="Numbers only" pattern="^[0-9]+$" required>
+            <input id="priority" placeholder="Priority" title="Numbers only" pattern="^[0-9]+$" required>
+            <button id="add-btn" type="submit"> Add </button>
         </form>
-        <button id="add-btn"> Add </button>
     </section>
     <section class="processes-table">
         <p class="title">Processes Table</p>
@@ -32,8 +31,13 @@
     <section class="gantt-chart">
         <p class="title">Gantt Chart</p>
         <div id="chart-container">
-
+            <!-- drawn by js -->
         </div>
+    </section>
+    <section class="final-calculations">
+        <p class="title">turnaround and waiting time</p>
+        <p>Average Turnaround Time: <span id="avg-turnaround-result">━</span></p>
+        <p>Average Waiting Time: <span id="avg-waiting-result">━</span></p>
     </section>
     <button id="start-btn"> Start </button>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
