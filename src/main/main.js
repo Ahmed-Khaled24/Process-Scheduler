@@ -15,4 +15,6 @@ app.on('ready', () => {
 }) 
 
 ipcMain.on('exit', (event) => {app.quit()});
-ipcMain.on('gotoAlgorithmWindow', (event, algoType) => {console.log(algoType)});
+ipcMain.on('gotoAlgorithmWindow', (event, algoType) => {
+    mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/algorithmWindow.html`));
+});
