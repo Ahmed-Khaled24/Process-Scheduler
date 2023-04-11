@@ -55,6 +55,7 @@ class Scheduler extends EventEmitter {
 
       // Check if there are any processes that have arrived
       if (filteredProcesses.length == 0) {
+        this.count++;
         continue;
         // Check if CPU is free
       } else if (currentProcess === null) {
@@ -82,11 +83,18 @@ class Scheduler extends EventEmitter {
       if(Live){
         this.emit("draw", emittedProcess);
       }else{
-        resultArr.push(emittedProcess);
+        resultArr = [...resultArr, emittedProcess];
       }
       this.count++;
     }
-    return resultArr;
+
+    if(!Live){
+      //remove duplicate processes
+      resultArr = resultArr.filter((process,index) => {
+        return resultArr.findIndex((p) => p.processId === process.processId) === index;
+      })
+      this.emit("drawAll", resultArr);
+    } 
   }
 
   appendToQueue(process) {
