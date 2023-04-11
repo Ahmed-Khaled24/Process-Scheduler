@@ -49,11 +49,7 @@ class Scheduler extends EventEmitter {
           start: this.count,
           end: this.count + filteredProcesses[0].burstTime,
         };
-        // this.emit("draw", {
-        //   Pid: currentProcess.process.processId,
-        //   start: currentProcess.start,
-        //   end: currentProcess.end,
-        // });
+
         this.emit("draw", new GUIProcess(currentProcess.process.processId, currentProcess.start, currentProcess.end));
         CPU = true;
       } else {
@@ -65,11 +61,6 @@ class Scheduler extends EventEmitter {
           CPU = false;
           this.count--;
         } else {
-          // this.emit("draw", {
-          //   Pid: currentProcess.process.processId,
-          //   start: currentProcess.start,
-          //   end: currentProcess.end,
-          // });
           this.emit("draw", new GUIProcess(currentProcess.process.processId, currentProcess.start, currentProcess.end));
 
         }
@@ -77,6 +68,7 @@ class Scheduler extends EventEmitter {
 
       this.count++;
     }
+    this.emit("drawAll" , resultArr);
   }
 
   appendToQueue(process) {

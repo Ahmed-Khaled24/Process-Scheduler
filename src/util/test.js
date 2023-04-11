@@ -21,17 +21,15 @@ alg.on('append', (process) => {
     alg.appendToQueue(process);
 })
 
+//alg.nonPreemptivePriority();
+
 alg.nonPreemptivePriority();
 
+alg.on('drawAll', (arr) => {
+    console.log(arr);
+})
 
-setTimeout(() => {
-    // alg.appendToQueue({
-    //     processId: 4,
-    //     arrivalTime: 3,
-    //     burstTime: 4,
-    //     priorityy: 1,
-    // });
-    alg.appendToQueue(new InputProcess(4, 3, 4, 1));
-
-}, 3000);
+// setTimeout(() => {
+//     alg.appendToQueue(new InputProcess(4, 3, 4, 1));
+// }, 3000);
 
