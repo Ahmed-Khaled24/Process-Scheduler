@@ -2,31 +2,14 @@ const Schedular = require('../../util/Scheduler');
 const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
 
+let ALGORITHM_STARTED = false;
+const WIDTH_UNIT = 30;
+
 document.getElementById('back-btn').addEventListener('click', () => {
     ipcRenderer.send('gotoMainWindow');
 })
 
 // Table definition
-let tableData = [
-    {
-        processId: 'Process 1',
-        arrivalTime: '0',
-        burstTime: '5',
-        priority: '1',
-    },
-    {
-        processId: 'Process 2',
-        arrivalTime: '1',
-        burstTime: '4',
-        priority: '2',
-    },
-    {
-        processId: 'Process 3',
-        arrivalTime: '1',
-        burstTime: '3',
-        priority: '3',
-    },
-];
 let table = new Tabulator("#processes-table", {
     columns:[
         {title: 'Process ID', field: 'processId', resizable: false},
@@ -34,7 +17,7 @@ let table = new Tabulator("#processes-table", {
         {title: 'Burst Time', field: 'burstTime', resizable: false},
         {title: 'Priority', field: 'priority', resizable: false},
     ],
-    data: tableData,
+    data: [],
     layout:"fitColumns",
     movableRows: true,
     height: "100%",
@@ -43,26 +26,24 @@ let table = new Tabulator("#processes-table", {
 // Add element to the table
 const addProcessBtn = document.getElementById('add-btn');
 addProcessBtn.addEventListener('click', () => {
-    const processId = document.getElementById('process-id').value;
-    const arrivalTime = document.getElementById('arrival-time').value;
-    const burstTime = document.getElementById('burst-time').value;
-    const priority = document.getElementById('priority').value;
-    table.addRow({
+    const processId = Number(document.getElementById('process-id').value);
+    const arrivalTime = Number(document.getElementById('arrival-time').value);
+    const burstTime = Number(document.getElementById('burst-time').value);
+    const priority = Number(document.getElementById('priority').value);
+    table.addRow({ // make sure the data is numbers and not strings so that the calculations are correct
         processId,
         arrivalTime,
         burstTime,
         priority,
     });
+    if(ALGORITHM_STARTED){
+        schedular.appendToQueue(new InputProcess(processId, arrivalTime, burstTime, priority));
+    }
 });
 
 
 // Chart Code 
-const schedular = new Schedular([
-    new InputProcess(1, 0, 5, 1),
-    new InputProcess(2, 1, 4, 2),
-    new InputProcess(3, 1, 3, 3),
-]);
-
+const schedular = new Schedular([])
 const colors = ['#002B5B', '#EA5455'];
 let curColor = colors[0];
 function toggleColor(){
@@ -73,14 +54,27 @@ let curProcess = null;
 let curProcessDiv = null;
 let charContainer = document.getElementById('chart-container');
 const startBtn = document.getElementById('start-btn');
-startBtn.addEventListener('click', () => {
-    schedular.nonPreemptivePriority();
+startBtn.addEventListener('click', () => { 
+    ALGORITHM_STARTED = true;
+    // get the data from the table
+    let processes = table.getData().map((process) => new InputProcess(
+            process.processId,
+            process.arrivalTime,
+            process.burstTime,
+            process.priority
+		)
+	);
+    // send the data to the algorithm
+    processes.forEach(process => {
+        schedular.appendToQueue(process);
+    });	
+    // run the algorithm
+    schedular.nonPreemptivePriority(true);
     startBtn.disabled = true;
     startBtn.classList.add('disabled-btn');
 });
 
 schedular.on('draw', (receivedProcess) => {
-    const WIDTH_UNIT = 30;
     console.log(`Drawing process ${receivedProcess}`);
     if(receivedProcess?.processId === curProcess?.processId){ // Same as the running process
         curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
