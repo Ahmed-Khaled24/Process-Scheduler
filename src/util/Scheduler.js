@@ -78,7 +78,30 @@ class Scheduler extends EventEmitter {
       this.count++;
     }
   }
+async sjfNonpreem(process){
+  let time = Math.min( ...process.map( p => p.arrivalTime ) );
+while ( process.find( p => p.Finished == null ) ) {
+  let execute = process.reduce( ( ni, p, i ) => {
+    if ( p.Finished == null && p.arrivalTime <= time && (ni === -1 || p.burstTime < process[ ni ].burstTime ) ) {
+      ni = i;
+    }
+    return ni;
+  }, -1 );
+  
+  // Capture the start time...
+  process[ execute ].Started = time;
+  // ...and then calculate the finish time.
+  time += process[ execute ].burstTime;
+  process[ execute ].Finished = time;
+  for(var i=0;i<process[ execute ].burstTime;i++){
+    await promiseWait(1000);
+    this.emit("draw", new GUIProcess(process[execute].processId, process[execute].Started, process[execute].Finished));
+}
+}
 
+// For ease of viewing, sort by Started.
+process.sort( ( a, b ) => a.Started - b.Started );
+}
   appendToQueue(process) {
     this.inputProcesses.push(process);
   }
