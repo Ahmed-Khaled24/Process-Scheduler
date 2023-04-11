@@ -18,3 +18,6 @@ ipcMain.on('exit', (event) => {app.quit()});
 ipcMain.on('gotoAlgorithmWindow', (event, algoType) => {
     mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/algorithmWindow.html`));
 });
+ipcMain.on('gotoMainWindow', (event) => {
+    mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));
+});

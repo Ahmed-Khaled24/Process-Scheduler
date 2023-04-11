@@ -9,11 +9,14 @@
     <title>Priority Non-preemptive</title>
 </head>
 <body>
-    <h1> Priority Non-preemptive </h1>
+    <div class="header"> 
+        <img src="../../../assets/back-btn-2z.svg" alt="back" id="back-btn" title="Go back">
+        <h1> Priority Non-preemptive </h1>
+    </div>
     <section class="add-process-form">
         <p class="title">Add New Process</p>
         <form id="new-process-form">
-            <input id="process-name" placeholder="Process Name">
+            <input id="process-id" placeholder="Process Name">
             <input id="arrival-time" placeholder="Arrival Time">
             <input id="burst-time" placeholder="Burst Time">
             <input id="priority" placeholder="Priority">
@@ -32,6 +35,7 @@
 
         </div>
     </section>
+    <button id="start-btn"> Start </button>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../../../lib/tabulator.min.js"></script>
     <script src="algorithmWindow.js"></script>

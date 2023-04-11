@@ -7,11 +7,12 @@ body {
     font-family: 'Lato';
     background-color: #E4DCCF;
     color: #002B5B;
-    padding: 20px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     gap: 40px;
+    position: relative;
 }
 section {
     background-color: rgba(0, 0, 0, 0.1);
@@ -33,6 +34,10 @@ button:hover{
     opacity: 1;
     cursor: pointer;
 }
+.disabled-btn:hover{
+    cursor: not-allowed;
+    opacity: 0.9;
+}
 .title{
     position: absolute;
     font-size: 10px;
@@ -43,6 +48,21 @@ button:hover{
     font-weight: bold;
     color: #002B5B;
 
+}
+.header{
+    display: flex;
+    gap: 15px;
+}
+img {
+    width: 35px;
+}
+#back-btn:hover{
+    cursor: pointer;
+}
+#start-btn{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }
 
  /* Form styling */
@@ -87,8 +107,44 @@ button:hover{
 }
 
 /* Chart */
+.gantt-chart{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
+}
 #chart-container {
-    padding: 30px;
+    padding: 20px;
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+}
+.chart-segment{
+    width: 70px;
+    color: white;
+    height: 50px;
+    position: relative;
+    font-size: 16px;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-property: width;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+}
+.chart-segment-start-time {
+    color: #002B5B;
+    font-size: 10px;
+    font-weight: bolder;
+    position: absolute;
+    top: -15px;
+    left: 0;
+}
+.chart-segment-end-time {
+    color: #002B5B;
+    font-weight: bolder;
+    font-size: 10px;
+    position: absolute;
+    top: -15px;
+    right: 0;
 }
