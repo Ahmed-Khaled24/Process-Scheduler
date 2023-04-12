@@ -34,6 +34,15 @@
 					pattern="^[0-9]+$"
 					required
 				/>
+				<% if(priority) { %>
+					<input
+						id="priority"
+						placeholder="Priority"
+						title="Numbers only"
+						pattern="^[0-9]+$"
+						required
+					/>
+				<% } %>
 				<button id="add-btn" type="submit">Add</button>
 			</form>
 		</section>
@@ -57,6 +66,5 @@
 		<button id="start-btn">Start</button>
 		<script src="../../../lib/tabulator.min.js"></script>
 		<script src="./scheduler.js"></script>
-		<script src="./global.js"></script>
 	</body>
 </html>

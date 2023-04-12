@@ -19,7 +19,6 @@ app.on('ready', () => {
 
 ipcMain.on('exit', (event) => {app.quit()});
 ipcMain.on('gotoAlgorithmWindow', (event) => {
-    console.log('gotoAlgorithmWindow')
     mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/scheduler.html`)); 
 });
 ipcMain.on('gotoMainWindow', (event) => {

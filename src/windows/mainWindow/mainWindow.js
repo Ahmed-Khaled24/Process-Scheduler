@@ -24,6 +24,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'First Come First Serve (FCFS)',
                 pageTitle: 'First Come First Serve (FCFS)',
+                priority: false,
             });
             break;
         }
@@ -31,6 +32,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'Preemptive Shortest Job First (SJF)',
                 pageTitle: 'Preemptive Shortest Job First (SJF)',
+                priority: false,
             });
             break;
         }
@@ -38,6 +40,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'Non-Preemptive Shortest Job First (SJF)',
                 pageTitle: 'Non-Preemptive Shortest Job First (SJF)',
+                priority: false,
             });
             break;
         }
@@ -45,6 +48,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'Preemptive Priority',
                 pageTitle: 'Preemptive Priority',
+                priority: true,
             });
             break;
         }
@@ -52,6 +56,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'Non-Preemptive Priority',
                 pageTitle: 'Non-Preemptive Priority',
+                priority: true,
             });
             break;
         }
@@ -59,6 +64,7 @@
             renderedTemplate = ejs.render(schedulerTemplate, {
                 headerTitle: 'Round Robin',
                 pageTitle: 'Round Robin',
+                priority: false,
             });
             break;
         }
@@ -69,7 +75,6 @@
 
 algoTypes.forEach(type => {
     type.addEventListener('change', () => {
-        console.log('algorithm selected');
         nextBtn.disabled = false;
     });
 })
