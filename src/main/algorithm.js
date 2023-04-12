@@ -85,9 +85,7 @@ class Algorithm extends EventEmitter {
         this.inputProcesses.splice(idx, 1);
       }
     }
-    if (!live) {
-      this.emit("drawAll", resultArr);
-    }
+    if (!live) this.emit("drawAll", resultArr);
   }
   appendToQueue(process) {
     this.inputProcesses.push(process);
