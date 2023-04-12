@@ -52,7 +52,8 @@ let curProcess = null;
 let curProcessDiv = null;
 let charContainer = document.getElementById('chart-container');
 const startBtn = document.getElementById('start-btn');
-startBtn.addEventListener('click', () => { 
+const liveInput = document.getElementById('live');
+startBtn.addEventListener('click', async () => { 
     ALGORITHM_STARTED = true;
     // get the data from the table
     let processes = table.getData().map((process) => new InputProcess(
@@ -67,7 +68,7 @@ startBtn.addEventListener('click', () => {
         schedular.appendToQueue(process);
     });	
     // run the algorithm
-    schedular.nonPreemptivePriority(true);
+    schedular.nonPreemptivePriority(liveInput.checked);
     startBtn.disabled = true;
     startBtn.classList.add('disabled-btn');
 });
@@ -89,4 +90,10 @@ schedular.on('draw', (receivedProcess) => {
         `
         charContainer.appendChild(curProcessDiv);
     }
+});
+
+schedular.on('drawAll', (processes) => {
+    processes.forEach((process) => {
+        schedular.emit('draw', process);
+    });
 });
