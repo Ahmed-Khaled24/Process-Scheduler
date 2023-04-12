@@ -18,27 +18,9 @@ app.on('ready', () => {
 }) 
 
 ipcMain.on('exit', (event) => {app.quit()});
-ipcMain.on('gotoAlgorithmWindow', (event, SchedulerType) => {
-    switch(SchedulerType){
-        case 'non-sjf':
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/SJF/SJFNonPreemptive.html`));
-            break;
-        case 'pre-sjf': 
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/SJF/SJFPreemptive.html`));
-            break;
-        case 'non-priority':
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/Priority/PriorityNonPreemptive.html`));
-            break;
-        case 'pre-priority': 
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/Priority/PriorityPreemptive.html`));
-            break;
-        case 'round-robin': 
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/RR/RR.html`));
-            break;
-        case 'fcfs':
-            mainWindow.loadFile(join(__dirname,`../windows/algorithmWindow/FCFS/FCFS.html`));
-            break;
-    }
+ipcMain.on('gotoAlgorithmWindow', (event) => {
+    console.log('gotoAlgorithmWindow')
+    mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/scheduler.html`)); 
 });
 ipcMain.on('gotoMainWindow', (event) => {
     mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));

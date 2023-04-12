@@ -19,5 +19,8 @@
   "homepage": "https://github.com/Ahmed-Khaled24/Process-Schedular#readme",
   "devDependencies": {
     "electron": "^24.0.0"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9"
   }
 }

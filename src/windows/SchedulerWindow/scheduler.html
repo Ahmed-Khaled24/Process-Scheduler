@@ -4,14 +4,14 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../global.css" />
-		<link rel="stylesheet" href="../../../../lib/tabulator.min.css" />
-		<title>Non-Preemptive Priority</title>
+		<link rel="stylesheet" href="./scheduler..css" />
+		<link rel="stylesheet" href="../../../lib/tabulator.min.css" />
+		<title> First Come First Serve (FCFS)</title>
 	</head>
 	<body>
 		<div class="header">
-			<img src="../../../../assets/back-btn-2z.svg" alt="back" id="back-btn" title="Go back" />
-			<h1>Non-Preemptive Priority</h1>
+			<img src="../../../assets/back-btn-2z.svg" alt="back" id="back-btn" title="Go back" />
+			<h1> First Come First Serve (FCFS)</h1>
 			<div id="is-live">
 				<input type="checkbox" value="live" id="live"> 
 				<label for="live"> Live Result</label>
@@ -30,13 +30,6 @@
 				<input
 					id="burst-time"
 					placeholder="Burst Time"
-					title="Numbers only"
-					pattern="^[0-9]+$"
-					required
-				/>
-				<input
-					id="priority"
-					placeholder="Priority"
 					title="Numbers only"
 					pattern="^[0-9]+$"
 					required
@@ -62,8 +55,8 @@
 			<p>Average Waiting Time: <span id="avg-waiting-result">━</span></p>
 		</section>
 		<button id="start-btn">Start</button>
-		<script src="../../../../lib/tabulator.min.js"></script>
-		<script src="../global.js"></script>
-		<script src="./Priority.js"></script>
+		<script src="../../../lib/tabulator.min.js"></script>
+		<script src="./scheduler.js"></script>
+		<script src="./global.js"></script>
 	</body>
 </html>

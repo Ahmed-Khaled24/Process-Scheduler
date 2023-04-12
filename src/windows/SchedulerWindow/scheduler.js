@@ -1,9 +1,13 @@
-const Schedular = require('../../../util/Scheduler');
-const {InputProcess} = require('../../../util/Process');
+const Schedular = require('../../util/Scheduler');
+const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
 
 let ALGORITHM_STARTED = false;
 const WIDTH_UNIT = 30;
+
+document.getElementById('back-btn').addEventListener('click', () => {
+    ipcRenderer.send('gotoMainWindow');
+});
 
 // Table definition
 let processId = 1;

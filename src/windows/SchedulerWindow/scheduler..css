@@ -52,6 +52,7 @@ button:hover{
 .header{
     display: flex;
     gap: 15px;
+    position: relative;
 }
 img {
     width: 35px;
@@ -61,8 +62,26 @@ img {
 }
 #start-btn{
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 30px;
+    right: 30px;
+}
+#is-live{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 22px;
+    color: inherit;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 15px 15px;
+    position: absolute;
+    right: 0;
+}
+#is-live input{
+    width: 20px;
+    height: 20px;
+    accent-color: #EA5455;
 }
 
  /* Form styling */
