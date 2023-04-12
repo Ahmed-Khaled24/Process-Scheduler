@@ -78,29 +78,40 @@ class Scheduler extends EventEmitter {
       this.count++;
     }
   }
-async sjfNonpreem(process){
-  let time = Math.min( ...process.map( p => p.arrivalTime ) );
-while ( process.find( p => p.Finished == null ) ) {
-  let execute = process.reduce( ( ni, p, i ) => {
-    if ( p.Finished == null && p.arrivalTime <= time && (ni === -1 || p.burstTime < process[ ni ].burstTime ) ) {
+async sjfNonpreem(islive){
+  let time = Math.min( ...this.inputProcesses.map( p => p.arrivalTime ) );
+  var waiting=[];
+   var turn =[];
+while ( this.inputProcesses.find( p => p.Finished == null ) ) {
+  let execute = this.inputProcesses.reduce( ( ni, p, i ) => {
+    if ( p.Finished == null && p.arrivalTime <= time && (ni === -1 || p.burstTime < this.inputProcesses[ ni ].burstTime ) ) {
       ni = i;
     }
     return ni;
   }, -1 );
-  
   // Capture the start time...
-  process[ execute ].Started = time;
+  this.inputProcesses[ execute ].Started = time;
   // ...and then calculate the finish time.
-  time += process[ execute ].burstTime;
-  process[ execute ].Finished = time;
-  for(var i=0;i<process[ execute ].burstTime;i++){
+  time += this.inputProcesses[ execute ].burstTime;
+  this.inputProcesses[ execute ].Finished = time;
+  waiting.push(this.inputProcesses[execute].Started-this.inputProcesses[execute].arrivalTime);
+  turn.push(this.inputProcesses[execute].Finished-this.inputProcesses[execute].arrivalTime);
+  if(islive){
+  for(var i=0;i<this.inputProcesses[ execute ].burstTime;i++){
     await promiseWait(1000);
-    this.emit("draw", new GUIProcess(process[execute].processId, process[execute].Started, process[execute].Finished));
+    this.emit("draw", new GUIProcess(this.inputProcesses[execute].processId, this.inputProcesses[execute].Started, this.inputProcesses[execute].Finished));
 }
 }
-
+else{
+  this.emit("draw", new GUIProcess(this.inputProcesses[execute].processId, this.inputProcesses[execute].Started, this.inputProcesses[execute].Finished));
+}
+}
+//determine waiting and turn around time 
+const waitingg = waiting.reduce((result,number)=> result+number)/(waiting.length);
+const turnn = turn.reduce((result,number)=> result+number)/(turn.length);
+this.emit("draw", "average waiting:"+waitingg +"\naverage turn around:"+turnn);
 // For ease of viewing, sort by Started.
-process.sort( ( a, b ) => a.Started - b.Started );
+this.inputProcesses.sort( ( a, b ) => a.Started - b.Started );
 }
   appendToQueue(process) {
     this.inputProcesses.push(process);
