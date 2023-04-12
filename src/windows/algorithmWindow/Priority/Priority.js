@@ -1,13 +1,9 @@
-const Schedular = require('../../util/Scheduler');
-const {InputProcess} = require('../../util/Process');
+const Schedular = require('../../../util/Scheduler');
+const {InputProcess} = require('../../../util/Process');
 const { ipcRenderer } = require('electron');
 
 let ALGORITHM_STARTED = false;
 const WIDTH_UNIT = 30;
-
-document.getElementById('back-btn').addEventListener('click', () => {
-    ipcRenderer.send('gotoMainWindow');
-})
 
 // Table definition
 let processId = 1;
@@ -25,7 +21,6 @@ let table = new Tabulator("#processes-table", {
     rowHeight: 30,
 })
 // Add element to the table
-const addProcessBtn = document.getElementById('add-btn');
 const addProcessForm = document.querySelector('.add-process-form');
 addProcessForm.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault(); //  to prevent window reload
