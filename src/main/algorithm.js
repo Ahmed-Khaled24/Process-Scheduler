@@ -54,7 +54,9 @@ class Algorithm extends EventEmitter {
           idx = 0;
         }
       }
-      if (flag) break;
+      if (flag) {
+        break;
+      }
 
       this.inputProcesses[idx].burstTime -= 1;
 
