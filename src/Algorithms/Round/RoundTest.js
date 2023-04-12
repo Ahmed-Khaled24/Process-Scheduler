@@ -9,7 +9,7 @@ function initializeProcesses(num_processes){
         for (let index = 0; index < num_processes; index++) {
             const proceses = new InputProcess(index,
                                     Date.now()-startTime+num_processes-index,
-                                    Math.floor(Math.random()*5+1),index,0);
+                                    Math.floor(Math.random()*5+1),index);
             
             processes.push(proceses);
         }
