@@ -8,7 +8,7 @@ function initializeProcesses(num_processes){
         const startTime = Date.now();
         for (let index = 0; index < num_processes; index++) {
             const proceses = new InputProcess(index,
-                                    Date.now()-startTime,
+                                    Date.now()-startTime+index,
                                     Math.floor(Math.random()*5+1),index);
             
             processes.push(proceses);
@@ -54,7 +54,7 @@ function printProcessesInfo(processes){
     })
 
     setTimeout(()=>{
-        let processNew = new InputProcess(4,Math.trunc((Date.now()-startTime)/1000),5,0,0);
+        let processNew = new InputProcess(4,10,5,0,0);
         algo.pushProcess(processNew);
         console.log(`New ${processNew.toString()}`);
     },2000);
