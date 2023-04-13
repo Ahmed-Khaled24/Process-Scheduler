@@ -1,18 +1,22 @@
 const Schedular = require('../../util/Scheduler');
 const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
+const { Console } = require('console');
 
 
 // Globals
 let ALGORITHM_STARTED = false;
 let PROCESS_ID = 1;
+let arrivalTimeIntervalID = null;
 const WIDTH_UNIT = 30;
 const algorithmTitle = document.querySelector('.header h1').innerText.toLowerCase();
-const addProcessForm = document.querySelector('.add-process-form');
+const addProcessForm = document.querySelector('#new-process-form');
 const startBtn = document.getElementById('start-btn');
 const liveInput = document.getElementById('live');
 const chartContainer = document.getElementById('chart-container');
 const arrivalTimeInput = document.getElementById('arrival-time');
+const avgWaitingTimeElement = document.getElementById('avg-waiting-result');
+const avgTurnaroundTimeElement = document.getElementById('avg-turnaround-result');
 let table = null;
 const schedular = new Schedular([]);
 const colors = ['#002B5B', '#EA5455'];
@@ -111,6 +115,16 @@ function configureChart() {
 }
 
 
+// Time configuration
+function configureTime() {
+	schedular.on('done', (avgTime) => {
+		avgWaitingTimeElement.innerText = `${avgTime.waiting.toFixed(2)}s`;
+		avgTurnaroundTimeElement.innerText = `${avgTime.turnaround.toFixed(2)}s`;
+		terminateAlgorithm();
+	});
+}
+
+
 // Helpers
 function addNewProcess(){
     const arrivalTime = Number(document.getElementById('arrival-time')?.value);
@@ -143,7 +157,7 @@ function evacuateInputFields(){
 function startArrivalTimeTimer(){
     let timer = 0;
     arrivalTimeInput.disabled = true;
-    setInterval(() => {
+    arrivalTimeIntervalID = setInterval(() => {
         arrivalTimeInput.value = timer;
         timer++;
     }, 1000);
@@ -165,21 +179,34 @@ function createChartSegment(process /* InputProcess */) {
     return chartDiv;
 }
 function runSelectedScheduler(live /* Boolean */){
-	if(algorithmTitle.includes('non-preemptive priority')){
+	if(algorithmTitle === 'non-preemptive priority'){
 		schedular.nonPreemptivePriority(live);
-	} else if(algorithmTitle.includes('preemptive priority')){
+	} else if(algorithmTitle === 'preemptive priority'){
 		// to be connected
-	} else if(algorithmTitle.includes('preemptive shortest job first')){
+	} else if(algorithmTitle === 'preemptive shortest job first (sjf)'){
 		schedular.PreemptiveSJF(live);
-	} else if (algorithmTitle.includes('non-preemptive shortest job first')) {
+	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
+		schedular.sjfNonPreemptive(live)
+	} else if(algorithmTitle === 'round robin'){
 		// to be connected
-	} else if(algorithmTitle.includes('round robin')){
+	} else if(algorithmTitle === 'first come first serve (fcfs)'){
 		// to be connected
-	} else if(algorithmTitle.includes('first come first serve')){
-		// to be connected
+	}
+}
+function terminateAlgorithm(){
+	clearInterval(arrivalTimeIntervalID);
+	for(let child of addProcessForm.children){
+		console.log(`disabling ${child.tagName}}`)
+		child.disabled = true;
+		if(child.tagName.toLowerCase() === 'input'){
+			child.value = '';
+		} else {
+			child.classList.add('disabled-btn');
+		}
 	}
 }
 
 // Main
 configureProcessesTable();
 configureChart();
+configureTime();
