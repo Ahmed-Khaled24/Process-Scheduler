@@ -1,6 +1,14 @@
 const { EventEmitter } = require("stream");
 const { GUIProcess } = require("../util/Process");
 
+function promiseWait(ms) {
+	return new Promise((resolve) => {
+	  setTimeout(() => {
+		resolve();
+	  }, ms);
+	});
+  }
+
 class Scheduler extends EventEmitter {
 	constructor(inputProcesses) {
 		super();
