@@ -27,7 +27,8 @@ alg.on('drawAll', (arr) => {
 //alg.nonPreemptivePriority();
 
 alg.nonPreemptivePriority();
-
+//short job first non premtive
+alg.sjfNonpreem(false);
 
 // setTimeout(() => {
 //     alg.appendToQueue(new InputProcess(4, 3, 4, 1));
