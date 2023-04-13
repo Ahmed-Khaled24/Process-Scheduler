@@ -19,10 +19,10 @@ class nonPreemptive extends Scheduler {
         await this.#run({ Live: Live, SortingParam: "priority" });
         break;
       case "sjf":
-        await this.#run({ Live: Live, SortingParam: "arrivalTime" });
+        await this.#run({ Live: Live, SortingParam: "burstTime" });
         break;
       case "fcfs":
-        await this.#run({ Live: Live, SortingParam: "burstTime" });
+        await this.#run({ Live: Live, SortingParam: "arrivalTime" });
         break;
       default:
         break;
@@ -48,7 +48,7 @@ class nonPreemptive extends Scheduler {
       // Break if timeout is reached
       if (timeout === 10) {
         let formattedArr = this.formatCalculation(resultArr);
-        this.emit("done", {avgWaitngTime: this.calculateAvgWaitingTime(formattedArr), avgTurnAroundTime: this.calcAvgTurnAroundTime(formattedArr)});
+        this.emit("done", {waiting: this.calculateAvgWaitingTime(formattedArr), turnaround: this.calcAvgTurnAroundTime(formattedArr)});
         // this.emit("done", formattedArr);
         break;
       }
