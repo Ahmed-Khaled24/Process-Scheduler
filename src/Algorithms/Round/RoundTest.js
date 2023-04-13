@@ -8,8 +8,8 @@ function initializeProcesses(num_processes){
         const startTime = Date.now();
         for (let index = 0; index < num_processes; index++) {
             const proceses = new InputProcess(index,
-                                    Date.now()-startTime+num_processes-index,
-                                    Math.floor(Math.random()*5+1),index,0);
+                                    Date.now()-startTime,
+                                    Math.floor(Math.random()*5+1),index);
             
             processes.push(proceses);
         }
@@ -24,6 +24,8 @@ function printProcessesInfo(processes){
 
 
 
+    // start Time of the algorithm
+    let startTime = Date.now();
     let proceses = initializeProcesses(4);
     printProcessesInfo(proceses);
 
@@ -47,3 +49,15 @@ function printProcessesInfo(processes){
     })
 
 
+    algo.on("Done",(Time)=>{
+        console.log(Time);
+    })
+
+    setTimeout(()=>{
+        let processNew = new InputProcess(4,Math.trunc((Date.now()-startTime)/1000),5,0,0);
+        algo.pushProcess(processNew);
+        console.log(`New ${processNew.toString()}`);
+    },2000);
+    // setInterval(()=>{
+        
+    // })

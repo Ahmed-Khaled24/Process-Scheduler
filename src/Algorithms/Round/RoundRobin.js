@@ -1,5 +1,5 @@
 const { EventEmitter } = require("stream");
-const {InputProcess,GUIProcess} = require("../../util/Process")
+const {InputProcess,GUIProcess,TimeCalculation} = require("../../util/Process")
 
 
 // class InputProcess {
@@ -66,17 +66,27 @@ class RoundRobin extends EventEmitter{
                 this.#QProcesses.push(currentRunningProcess);
             }
             else{
-                sumTurnAround += this.#RefernceTime -currentRunningProcess.TimeArrival;
-                sumWaitingTime += this.#RefernceTime - currentRunningProcess.TimeArrival -currentRunningProcess.BurstTime;
+                
+                sumTurnAround += this.#RefernceTime -currentRunningProcess.arrivalTime;
+                sumWaitingTime += this.#RefernceTime - currentRunningProcess.arrivalTime -currentRunningProcess.burstTime;
+                // console.log(sumTurnAround,sumWaitingTime);
+
             }
 
         }
-        this.#avgTurnAround = sumTurnAround/this.#totalProceses;
-        this.#avgWaitingTime = sumWaitingTime/this.#totalProceses;
+        // console.log(sumTurnAround,sumWaitingTime);
+        this.#avgTurnAround = (sumTurnAround/this.#totalProceses).toFixed(3);
+        this.#avgWaitingTime = (sumWaitingTime/this.#totalProceses).toFixed(3);
         
 
         if(drawAll)
             this.emit("drawAll",this.#segments);
+
+    
+        let calculationObj = new TimeCalculation(this.#avgWaitingTime,this.#avgTurnAround);  
+
+
+        this.emit("Done",calculationObj);    
 
     }
 
