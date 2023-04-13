@@ -1,4 +1,5 @@
 const { EventEmitter } = require("stream");
+const { GUIProcess } = require("../util/Process");
 
 class Scheduler extends EventEmitter {
 	constructor(inputProcesses) {
