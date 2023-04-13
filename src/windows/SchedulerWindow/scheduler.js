@@ -81,17 +81,25 @@ function configureChart() {
 				schedular.appendToQueue(process);
 			});
 		// run the algorithm
-		schedular.nonPreemptivePriority(liveInput.checked);
+		runSelectedScheduler(liveInput.checked);
 		disableStartBtn();
 	});
 	schedular.on('draw', (receivedProcess /* GUIProcess */) => {
 		if (receivedProcess?.processId === curProcess?.processId) {
 			// same as the running process
 			curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
+			for (let child of curProcessDiv.children) {
+				if (child.classList.contains('chart-segment-end-time')) {
+					child.innerText = receivedProcess.end;
+				}
+			}
 		} else {
 			// new process
 			curProcess = receivedProcess;
 			curProcessDiv = createChartSegment(curProcess);
+			if (liveInput.checked) {
+				curProcessDiv.classList.add('live-chart-segment');
+			}
 			chartContainer.appendChild(curProcessDiv);
 		}
 	});
@@ -127,7 +135,10 @@ function evacuateInputFields(){
         document.getElementById('arrival-time').value = '';
     }
     document.getElementById('burst-time').value = '';
-    document.getElementById('priority').value = '';
+	if(algorithmTitle.includes('priority')){
+		// this element does not exist except for priority algorithms
+		document.getElementById('priority').value = '';
+	}
 }
 function startArrivalTimeTimer(){
     let timer = 0;
@@ -152,6 +163,21 @@ function createChartSegment(process /* InputProcess */) {
         P${process.processId}
     `
     return chartDiv;
+}
+function runSelectedScheduler(live /* Boolean */){
+	if(algorithmTitle.includes('non-preemptive priority')){
+		schedular.nonPreemptivePriority(live);
+	} else if(algorithmTitle.includes('preemptive priority')){
+		// to be connected
+	} else if(algorithmTitle.includes('preemptive shortest job first')){
+		schedular.PreemptiveSJF(live);
+	} else if (algorithmTitle.includes('non-preemptive shortest job first')) {
+		// to be connected
+	} else if(algorithmTitle.includes('round robin')){
+		// to be connected
+	} else if(algorithmTitle.includes('first come first serve')){
+		// to be connected
+	}
 }
 
 // Main

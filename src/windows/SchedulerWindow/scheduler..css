@@ -150,6 +150,8 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.live-chart-segment{
     transition-property: width;
     transition-duration: 1s;
     transition-timing-function: linear;
