@@ -82,6 +82,7 @@ async sjfNonpreem(islive){
   let time = Math.min( ...this.inputProcesses.map( p => p.arrivalTime ) );
   var waiting=[];
    var turn =[];
+   var counter=0;
 while ( this.inputProcesses.find( p => p.Finished == null ) ) {
   let execute = this.inputProcesses.reduce( ( ni, p, i ) => {
     if ( p.Finished == null && p.arrivalTime <= time && (ni === -1 || p.burstTime < this.inputProcesses[ ni ].burstTime ) ) {
@@ -97,9 +98,11 @@ while ( this.inputProcesses.find( p => p.Finished == null ) ) {
   waiting.push(this.inputProcesses[execute].Started-this.inputProcesses[execute].arrivalTime);
   turn.push(this.inputProcesses[execute].Finished-this.inputProcesses[execute].arrivalTime);
   if(islive){
+  counter=this.inputProcesses[ execute ].Started; 
   for(var i=0;i<this.inputProcesses[ execute ].burstTime;i++){
+    counter++;
     await promiseWait(1000);
-    this.emit("draw", new GUIProcess(this.inputProcesses[execute].processId, this.inputProcesses[execute].Started, this.inputProcesses[execute].Finished));
+    this.emit("draw", new GUIProcess(this.inputProcesses[execute].processId, counter-1, counter));
 }
 }
 else{
