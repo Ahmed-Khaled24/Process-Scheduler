@@ -92,20 +92,20 @@ class Scheduler extends EventEmitter {
 		this.inputProcesses.push(process);
 	}
 
-	formatCalculation(processes) {
-		let resultArr = {};
+	formatCalculation(processes /* GUIProcess Array */) {
+		let formattedArr = {};
 		// filter duplicates in the processes
 		for (let i = processes.length - 1; i >= 0; i--) {
-			if (!resultArr[processes[i].processId]) {
-				resultArr[processes[i].processId] = processes[i];
+			if (!formattedArr[processes[i].processId]) {
+				formattedArr[processes[i].processId] = processes[i];
 			} else {
-				resultArr[processes[i].processId].start = processes[i].start;
+				formattedArr[processes[i].processId].start = processes[i].start;
 			}
 		}
-		return resultArr;
+		return formattedArr;
 	}
 
-	calculateAvgWaitingTime(processes) {
+	calculateAvgWaitingTime(processes /* Formatted Array */) {
 		let totalWaitingTime = 0;
 		for (const processId in processes) {
 			totalWaitingTime +=
@@ -117,7 +117,7 @@ class Scheduler extends EventEmitter {
 
 		return avgWaitingTime;
 	}
-	calcAvgTurnAroundTime(processes) {
+	calcAvgTurnAroundTime(processes /* Formatted Array */) {
 		let totalTurnAroundTime = 0;
 		for (const processId in processes) {
 			totalTurnAroundTime += processes[processId].end - processes[processId].arrivalTime;
