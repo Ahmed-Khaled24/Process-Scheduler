@@ -60,7 +60,12 @@ img {
 #back-btn:hover{
     cursor: pointer;
 }
-#start-btn{
+.footer-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    gap: 10px;
     position: absolute;
     bottom: 30px;
     right: 30px;
