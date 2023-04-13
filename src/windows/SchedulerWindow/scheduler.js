@@ -1,7 +1,7 @@
-const Schedular = require('../../util/Scheduler');
+const Scheduler = require('../../util/Scheduler');
+const NonPreemptive = require('../../util/NonPreemptive');
 const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
-const { Console } = require('console');
 
 
 // Globals
@@ -18,7 +18,7 @@ const arrivalTimeInput = document.getElementById('arrival-time');
 const avgWaitingTimeElement = document.getElementById('avg-waiting-result');
 const avgTurnaroundTimeElement = document.getElementById('avg-turnaround-result');
 let table = null;
-const schedular = new Schedular([]);
+const scheduler = schedulerFactory(algorithmTitle);
 const colors = ['#002B5B', '#EA5455'];
 let curColor = colors[0];
 function toggleColor(){
@@ -82,13 +82,13 @@ function configureChart() {
 					)
 			)
 			.forEach((process) => {
-				schedular.appendToQueue(process);
+				scheduler.appendToQueue(process);
 			});
 		// run the algorithm
 		runSelectedScheduler(liveInput.checked);
 		disableStartBtn();
 	});
-	schedular.on('draw', (receivedProcess /* GUIProcess */) => {
+	scheduler.on('draw', (receivedProcess /* GUIProcess */) => {
 		if (receivedProcess?.processId === curProcess?.processId) {
 			// same as the running process
 			curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
@@ -107,9 +107,9 @@ function configureChart() {
 			chartContainer.appendChild(curProcessDiv);
 		}
 	});
-	schedular.on('drawAll', (processes) => {
+	scheduler.on('drawAll', (processes) => {
 		processes.forEach((process) => {
-			schedular.emit('draw', process);
+			scheduler.emit('draw', process);
 		});
 	});
 }
@@ -117,7 +117,7 @@ function configureChart() {
 
 // Time configuration
 function configureTime() {
-	schedular.on('done', (avgTime) => {
+	scheduler.on('done', (avgTime) => {
 		avgWaitingTimeElement.innerText = `${avgTime.waiting.toFixed(2)}s`;
 		avgTurnaroundTimeElement.innerText = `${avgTime.turnaround.toFixed(2)}s`;
 		terminateAlgorithm();
@@ -140,7 +140,7 @@ function addNewProcess(){
     }
     table.addRow(newRow);
     if (ALGORITHM_STARTED) {
-        schedular.appendToQueue(new InputProcess(PROCESS_ID, arrivalTime, burstTime, priority));
+        scheduler.appendToQueue(new InputProcess(PROCESS_ID, arrivalTime, burstTime, priority));
     }
     PROCESS_ID++;
 }
@@ -180,29 +180,37 @@ function createChartSegment(process /* InputProcess */) {
 }
 function runSelectedScheduler(live /* Boolean */){
 	if(algorithmTitle === 'non-preemptive priority'){
-		schedular.nonPreemptivePriority(live);
+		scheduler.start( {Algorithm: 'priority', Live: live} );
 	} else if(algorithmTitle === 'preemptive priority'){
 		// to be connected
 	} else if(algorithmTitle === 'preemptive shortest job first (sjf)'){
-		schedular.PreemptiveSJF(live);
+		scheduler.PreemptiveSJF(live);
 	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
-		schedular.sjfNonPreemptive(live)
+		scheduler.start( {Algorithm: 'sjf', Live: live} );
 	} else if(algorithmTitle === 'round robin'){
 		// to be connected
 	} else if(algorithmTitle === 'first come first serve (fcfs)'){
-		// to be connected
+		scheduler.start( {Algorithm: 'fcfs', Live: live} );
 	}
 }
 function terminateAlgorithm(){
 	clearInterval(arrivalTimeIntervalID);
 	for(let child of addProcessForm.children){
-		console.log(`disabling ${child.tagName}}`)
 		child.disabled = true;
 		if(child.tagName.toLowerCase() === 'input'){
 			child.value = '';
 		} else {
 			child.classList.add('disabled-btn');
 		}
+	}
+}
+function schedulerFactory(title){
+	if(title.includes('non-preemptive') || title.includes('fcfs')){
+		return new NonPreemptive([]);
+	} else if(title.includes('preemptive')){
+		return new Scheduler([]);
+	} else if(title.includes('round robin')){
+		// to be added
 	}
 }
 
