@@ -1,5 +1,6 @@
 const Scheduler = require('../../util/Scheduler');
 const NonPreemptive = require('../../util/NonPreemptive');
+const RoundRobin = require('../../util/RoundRobin');
 const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
 
@@ -9,7 +10,6 @@ let ALGORITHM_STARTED = false;
 let PROCESS_ID = 1;
 let arrivalTimeIntervalID = null;
 let quantum = null;
-let quantumInitialized = false;
 const WIDTH_UNIT = 30;
 const algorithmTitle = document.querySelector('.header h1').innerText.toLowerCase();
 const addProcessForm = document.querySelector('#new-process-form');
@@ -37,18 +37,21 @@ document.getElementById('retry-btn').addEventListener('click', () => {
     window.location.reload();
 });
 // Handle Quantum form
-quantumForm.addEventListener('submit', (submitEvent) => {
-	submitEvent.preventDefault();
-	quantum = Number(quantumInput.value);
-	for (let child of quantumForm.children) {
-		child.disabled = true;
-		if (child.tagName.toLowerCase() === 'button') {
-			child.classList.add('disabled-btn');
-		} else if (child.tagName.toLowerCase() === 'input') {
-			child.value = `Qtm = ${quantum}`;
+if(algorithmTitle === 'round robin') {
+	quantumForm.addEventListener('submit', (submitEvent) => {
+		submitEvent.preventDefault();
+		quantum = Number(quantumInput.value);
+		scheduler.setQuantum(quantum);
+		for (let child of quantumForm.children) {
+			child.disabled = true;
+			if (child.tagName.toLowerCase() === 'button') {
+				child.classList.add('disabled-btn');
+			} else if (child.tagName.toLowerCase() === 'input') {
+				child.value = `Qtm = ${quantum}`;
+			}
 		}
-	}
-});
+	});
+}
 
 
 // Table configuration
@@ -83,6 +86,12 @@ function configureChart() {
 	let curProcess = null;
 	let curProcessDiv = null;
 	startBtn.addEventListener('click', async () => {
+		if(algorithmTitle === 'round robin'){
+			if(!quantum){ // quantum time not set
+				ipcRenderer.send('error', 'quantum time not set');
+				return;
+			}
+		}
 		startArrivalTimeTimer();
 		ALGORITHM_STARTED = true;
 		// get the data from the table then add all processes to scheduler queue
@@ -133,8 +142,8 @@ function configureChart() {
 // Time configuration
 function configureTime() {
 	scheduler.on('done', (avgTime) => {
-		avgWaitingTimeElement.innerText = `${avgTime.waiting.toFixed(2)}s`;
-		avgTurnaroundTimeElement.innerText = `${avgTime.turnaround.toFixed(2)}s`;
+		avgWaitingTimeElement.innerText = `${Number(avgTime.waiting).toFixed(2)}s`;
+		avgTurnaroundTimeElement.innerText = `${Number(avgTime.turnaround).toFixed(2)}s`;
 		terminateAlgorithm();
 	});
 }
@@ -203,7 +212,7 @@ function runSelectedScheduler(live /* Boolean */){
 	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
 		scheduler.start( {Algorithm: 'sjf', Live: live} );
 	} else if(algorithmTitle === 'round robin'){
-		// to be connected
+		scheduler.Run(!live);
 	} else if(algorithmTitle === 'first come first serve (fcfs)'){
 		scheduler.start( {Algorithm: 'fcfs', Live: live} );
 	}
@@ -225,7 +234,7 @@ function schedulerFactory(title){
 	} else if(title.includes('preemptive')){
 		return new Scheduler([]);
 	} else if(title.includes('round robin')){
-		// to be added
+		return new RoundRobin([], 1);
 	}
 }
 function toggleColor(){
