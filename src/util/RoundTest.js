@@ -1,35 +1,38 @@
-const RoundRobin = require('./RoundRobin.js');
-const { InputProcess } = require('./Process.js');
+// import { RoundRobin } from "./RoundRobin";
+const  RoundRobin  = require('./RoundRobin.js');
+const { InputProcess } = require('../util/Process.js');
 
 function initializeProcesses(num_processes) {
 	let processes = [];
 	const startTime = Date.now();
 	for (let index = 0; index < num_processes; index++) {
-		const process = new InputProcess(
+		const proceses = new InputProcess(
 			index,
 			Date.now() - startTime + index,
 			Math.floor(Math.random() * 5 + 1),
 			index
 		);
 
-		processes.push(process);
+		processes.push(proceses);
 	}
 	return processes;
 }
-
 function printProcessesInfo(processes) {
 	for (const process of processes) {
-		console.log(process.toString());
+		// console.log(process.toString());
 	}
 }
 
 // start Time of the algorithm
 let startTime = Date.now();
-let processes = initializeProcesses(4);
-printProcessesInfo(processes);
+let proceses = initializeProcesses(4);
+printProcessesInfo(proceses);
 
-let algo = new RoundRobin(processes, 3);
-algo.Run(true);
+let algo = new RoundRobin([], 2);
+proceses.forEach((process) => {
+	algo.appendToQueue(process);
+});
+algo.Run();
 
 let tester = [];
 algo.on('draw', (segment) => {
@@ -52,5 +55,7 @@ algo.on('done', (Time) => {
 setTimeout(() => {
 	let processNew = new InputProcess(4, 10, 5, 0, 0);
 	algo.appendToQueue(processNew);
-	console.log(`New ${processNew.toString()}`);
 }, 2000);
+// setInterval(()=>{
+
+// })
