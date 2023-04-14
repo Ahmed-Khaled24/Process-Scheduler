@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const {join} = require('path');
 
 let mainWindow;
@@ -24,3 +24,6 @@ ipcMain.on('gotoAlgorithmWindow', (event) => {
 ipcMain.on('gotoMainWindow', (event) => {
     mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));
 });
+ipcMain.on('error', (event, error) => {
+    dialog.showErrorBox('Error', error);
+})
