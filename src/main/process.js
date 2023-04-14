@@ -9,10 +9,12 @@ class InputProcess {
 }
 
 class GUIProcess {
-  constructor(processId, start, end) {
+  constructor(processId, start, end, arrivalTime, burstTime) {
     this.processId = processId;
     this.start = start;
     this.end = end;
+    this.arrivalTime = arrivalTime;
+    this.burstTime = burstTime;
   }
 }
 
