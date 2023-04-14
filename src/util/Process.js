@@ -4,7 +4,11 @@ class InputProcess {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-        this.quantum = quantum;
+        // this.quantum = quantum;
+        this.consumedTime = 0;
+    }
+    toString(){
+        return `{PID: ${this.processId}| Arrival: ${this.arrivalTime}| Burst: ${this.burstTime}| Consumed: ${this.consumedTime}}`
     }
 }
 
@@ -17,5 +21,11 @@ class GUIProcess {
     }
 }
 
+class TimeCalculation{
+    constructor(waitingTime,TurnAround){
+        this.waiting = waitingTime;
+        this.turnaround = TurnAround;
+    }
+}
 
-module.exports = { InputProcess, GUIProcess };
+module.exports = { InputProcess, GUIProcess ,TimeCalculation};
