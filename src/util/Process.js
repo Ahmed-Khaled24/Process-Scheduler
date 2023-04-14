@@ -20,5 +20,11 @@ class GUIProcess {
     }
 }
 
+class TimeCalculation{
+    constructor(waitingTime,TurnAround){
+        this.waiting = waitingTime;
+        this.turnaround = TurnAround;
+    }
+}
 
-module.exports = { InputProcess, GUIProcess };
+module.exports = { InputProcess, GUIProcess ,TimeCalculation};
