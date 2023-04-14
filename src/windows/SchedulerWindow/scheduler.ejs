@@ -12,9 +12,19 @@
 		<div class="header">
 			<img src="../../../assets/back-btn-2z.svg" alt="back" id="back-btn" title="Go back" />
 			<h1> <%= pageTitle %></h1>
-			<div id="is-live">
-				<input type="checkbox" value="live" id="live"> 
-				<label for="live"> Live Result</label>
+			<div id="header-options">
+				<div>
+					<input type="checkbox" value="live" id="live"> 
+					<label for="live"> Live Result</label>
+				</div>
+				<% if(roundRobin){ %>
+					<div>
+						<form id="quantum-form">
+							<input type="text" id="quantum" placeholder="Quantum" required pattern="^[0-9]+$" title="Numbers Only"> 
+							<button id="quantum-btn" title="set quantum" type="submit"> Set </button>
+						</form>
+					</div>
+				<% } %>
 			</div>
 		</div>
 		<section class="add-process-form">

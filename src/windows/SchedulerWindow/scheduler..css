@@ -34,6 +34,9 @@ button:hover{
     opacity: 1;
     cursor: pointer;
 }
+img {
+    width: 35px;
+}
 .disabled-btn:hover{
     cursor: not-allowed;
     opacity: 0.9;
@@ -47,16 +50,16 @@ button:hover{
     left: 0px;
     font-weight: bold;
     color: #002B5B;
-
 }
+
+ /* Header */
 .header{
     display: flex;
     gap: 15px;
     position: relative;
+    align-items: center;
 }
-img {
-    width: 35px;
-}
+
 #back-btn:hover{
     cursor: pointer;
 }
@@ -70,7 +73,15 @@ img {
     bottom: 30px;
     right: 30px;
 }
-#is-live{
+#header-options{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#header-options div{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,13 +91,27 @@ img {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     padding: 15px 15px;
-    position: absolute;
-    right: 0;
+    align-self: stretch;
 }
-#is-live input{
+#header-options input[type=checkbox]{
     width: 20px;
     height: 20px;
     accent-color: #EA5455;
+}
+#header-options input[type=text]{
+    width: 100px;
+    padding: 10px 15px;
+    border: none;
+    font-family: inherit;
+    font-weight: bolder;
+    border-radius: 5px;;
+    font-size: 14px;
+}
+#header-options input[type=text]:focus-visible{
+    outline: 2px solid #EA5455;
+}
+#header-options button{
+    width: fit-content;
 }
 
  /* Form styling */
@@ -176,4 +201,8 @@ img {
     margin-bottom: 50px;
     display: flex;
     justify-content: space-around;
+    font-size: 18px;
+}
+.final-calculations span{
+    font-weight: bolder;
 }

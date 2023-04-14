@@ -8,6 +8,8 @@ const { ipcRenderer } = require('electron');
 let ALGORITHM_STARTED = false;
 let PROCESS_ID = 1;
 let arrivalTimeIntervalID = null;
+let quantum = null;
+let quantumInitialized = false;
 const WIDTH_UNIT = 30;
 const algorithmTitle = document.querySelector('.header h1').innerText.toLowerCase();
 const addProcessForm = document.querySelector('#new-process-form');
@@ -17,13 +19,13 @@ const chartContainer = document.getElementById('chart-container');
 const arrivalTimeInput = document.getElementById('arrival-time');
 const avgWaitingTimeElement = document.getElementById('avg-waiting-result');
 const avgTurnaroundTimeElement = document.getElementById('avg-turnaround-result');
+const quantumForm = document.getElementById('quantum-form');
+const quantumInput = document.getElementById('quantum');
 let table = null;
 const scheduler = schedulerFactory(algorithmTitle);
 const colors = ['#002B5B', '#EA5455'];
 let curColor = colors[0];
-function toggleColor(){
-    curColor === colors[0] ? curColor = colors[1] : curColor = colors[0];
-}
+
 
 
 // Handle back button
@@ -33,6 +35,19 @@ document.getElementById('back-btn').addEventListener('click', () => {
 // Handle Retry button
 document.getElementById('retry-btn').addEventListener('click', () => {
     window.location.reload();
+});
+// Handle Quantum form
+quantumForm.addEventListener('submit', (submitEvent) => {
+	submitEvent.preventDefault();
+	quantum = Number(quantumInput.value);
+	for (let child of quantumForm.children) {
+		child.disabled = true;
+		if (child.tagName.toLowerCase() === 'button') {
+			child.classList.add('disabled-btn');
+		} else if (child.tagName.toLowerCase() === 'input') {
+			child.value = `Qtm = ${quantum}`;
+		}
+	}
 });
 
 
@@ -212,6 +227,9 @@ function schedulerFactory(title){
 	} else if(title.includes('round robin')){
 		// to be added
 	}
+}
+function toggleColor(){
+    curColor === colors[0] ? curColor = colors[1] : curColor = colors[0];
 }
 
 // Main

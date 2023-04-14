@@ -25,6 +25,7 @@
                 headerTitle: 'First Come First Serve (FCFS)',
                 pageTitle: 'First Come First Serve (FCFS)',
                 priority: false,
+                roundRobin: false,
             });
             break;
         }
@@ -33,6 +34,7 @@
                 headerTitle: 'Preemptive Shortest Job First (SJF)',
                 pageTitle: 'Preemptive Shortest Job First (SJF)',
                 priority: false,
+                roundRobin: false,
             });
             break;
         }
@@ -41,6 +43,7 @@
                 headerTitle: 'Non-Preemptive Shortest Job First (SJF)',
                 pageTitle: 'Non-Preemptive Shortest Job First (SJF)',
                 priority: false,
+                roundRobin: false,
             });
             break;
         }
@@ -49,6 +52,7 @@
                 headerTitle: 'Preemptive Priority',
                 pageTitle: 'Preemptive Priority',
                 priority: true,
+                roundRobin: false,
             });
             break;
         }
@@ -57,6 +61,7 @@
                 headerTitle: 'Non-Preemptive Priority',
                 pageTitle: 'Non-Preemptive Priority',
                 priority: true,
+                roundRobin: false,
             });
             break;
         }
@@ -65,6 +70,7 @@
                 headerTitle: 'Round Robin',
                 pageTitle: 'Round Robin',
                 priority: false,
+                roundRobin: true,
             });
             break;
         }
