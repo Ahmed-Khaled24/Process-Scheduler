@@ -3,21 +3,29 @@
   "version": "1.0.0",
   "main": "src/main/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-win": "electron-builder -w",
+    "build-mac": "electron-builder -m",
+    "build-linux": "electron-builder -l"
+  },
+  "build": {
+    "executableName": "Process Schedular",
+    "icon": "assets/icon.ico"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ahmed-Khaled24/Process-Schedular.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["OS", "Process", "Schedular", "CPU", "Scheduling", "Algorithms", "FCFS", "SJF", "SRTF", "RR", "Priority", "Non-Preemptive", "Preemptive", "Electron", "JavaScript", "HTML", "CSS", "EJS"],
+  "author": "Ahmed Khaled - Omar Mohamed - Ahmed Elsayed  - Hanan Saeed- Abdelrahman Nasser",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Ahmed-Khaled24/Process-Schedular/issues"
   },
   "homepage": "https://github.com/Ahmed-Khaled24/Process-Schedular#readme",
   "devDependencies": {
-    "electron": "^24.0.0"
+    "electron": "^24.0.0",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
     "ejs": "^3.1.9"
