@@ -1,5 +1,6 @@
 const Scheduler = require('../../util/Scheduler');
 const NonPreemptive = require('../../util/NonPreemptive');
+const Preemptive = require('../../util/Preemptive');
 const RoundRobin = require('../../util/RoundRobin');
 const {InputProcess} = require('../../util/Process');
 const { ipcRenderer } = require('electron');
@@ -208,7 +209,7 @@ function runSelectedScheduler(live /* Boolean */){
 	} else if(algorithmTitle === 'preemptive priority'){
 		scheduler.PreemptivePriority(live);
 	} else if(algorithmTitle === 'preemptive shortest job first (sjf)'){
-		scheduler.PreemptiveSJF(live);
+		scheduler.start({Algorithm: 'sjf', Live: live});
 	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
 		scheduler.start( {Algorithm: 'sjf', Live: live} );
 	} else if(algorithmTitle === 'round robin'){
@@ -231,8 +232,10 @@ function terminateAlgorithm(){
 function schedulerFactory(title){
 	if(title.includes('non-preemptive') || title.includes('fcfs')){
 		return new NonPreemptive([]);
-	} else if(title.includes('preemptive')){
-		return new Scheduler([]);
+	} else if(title === 'preemptive shortest job first (sjf)'){
+		return new Preemptive([]);
+	}else if(title.includes('preemptive')){
+		return new Scheduler([]); // to be refactored
 	} else if(title.includes('round robin')){
 		return new RoundRobin([], 1);
 	}

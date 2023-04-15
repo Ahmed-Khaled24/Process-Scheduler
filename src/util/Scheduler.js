@@ -1,5 +1,5 @@
 const { EventEmitter } = require("stream");
-const { GUIProcess ,TimeCalculation} = require("../util/Process");
+const { GUIProcess ,TimeCalculation} = require("./Process");
 
 function promiseWait(ms) {
 	return new Promise((resolve) => {

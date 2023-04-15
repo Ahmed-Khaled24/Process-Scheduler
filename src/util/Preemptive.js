@@ -1,5 +1,5 @@
-const Scheduler = require("../main/Scheduler");
-const { GUIProcess } = require("./process");
+const Scheduler = require("./Scheduler");
+const { GUIProcess, TimeCalculation } = require("./Process");
 
 function promiseWait(ms) {
   return new Promise((resolve) => {
@@ -16,11 +16,7 @@ class Preemptive extends Scheduler {
   async start({ Algorithm, Live }) {
     switch (Algorithm) {
       case "priority":
-        await this.#runsjf({
-          // Live: Live,
-          // SortingParam1: "priority",
-          // SortingParam1: "arrivalTime",
-        });
+      // TODO: add priority algorithm
         break;
       case "sjf":
         await this.#runsjf({
@@ -53,10 +49,7 @@ class Preemptive extends Scheduler {
           flag = true;
           if (Live) {
             let formattedArr = this.formatCalculation(resultArr);
-            this.emit("done", {
-              WaitngTime: this.calculateAvgWaitingTime(formattedArr),
-              TurnAroundTime: this.calcAvgTurnAroundTime(formattedArr),
-            });
+            this.emit("done", new TimeCalculation(this.calculateAvgWaitingTime(formattedArr), this.calcAvgTurnAroundTime(formattedArr)));
           }
 
           break;
@@ -110,10 +103,7 @@ class Preemptive extends Scheduler {
     if (!Live) {
       this.emit("drawAll", resultArr);
       let formattedArr = this.formatCalculation(resultArr);
-      this.emit("done", {
-        WaitngTime: this.calculateAvgWaitingTime(formattedArr),
-        TurnAroundTime: this.calcAvgTurnAroundTime(formattedArr),
-      });
+      this.emit("done", new TimeCalculation(this.calculateAvgWaitingTime(formattedArr), this.calcAvgTurnAroundTime(formattedArr)));
     }
   }
 }
