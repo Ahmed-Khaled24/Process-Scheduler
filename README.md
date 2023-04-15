@@ -40,5 +40,4 @@ ___
 3. Enter the directory: cd Process-Schedular
 4. Install the needed node packages: npm install
 5. Open the application to see instant changes while you're working: npm start
-
-___
+---
