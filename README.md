@@ -42,12 +42,3 @@ ___
 5. Open the application to see instant changes while you're working: npm start
 
 ___
-## Contributors
-| Name                 	| Email                     	|
-|----------------------	|---------------------------	|
-| Ahmed Khaled         	| ahmedkhaled.m24@gmail.com 	|
-| Ahmed El Sayed       	| ahmedeltop968@gmail.com   	|
-| Abd-El-Rahman Nasser 	| abdonasser865@gmail.com   	|
-| Bassel Khaled        	| basselkhal@gmail.com      	|
-| Omar Fahmy           	| ofahmy1234@gmail.com      	|
-| Hanan Saeed          	| hanansaeedbs12@gmail.com  	|
