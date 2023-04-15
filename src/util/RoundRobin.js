@@ -85,12 +85,14 @@ class RoundRobin extends EventEmitter {
 			let currentRunningProcess = this.#QProcesses[0];
 			this.#QProcesses.shift();
 
+			let emittedWithTransition = new GUIProcess(currentRunningProcess.processId,
+														this.#ReferenceTime,this.#ReferenceTime+1);
 			let emittedProcess = new GUIProcess(
 				currentRunningProcess.processId,
 				this.#ReferenceTime,
 				this.#getEndTime(currentRunningProcess) + this.#ReferenceTime
 			);
-			if (!drawAll) await this.#serveProcess(currentRunningProcess, emittedProcess);
+			if (!drawAll) await this.#serveProcess(currentRunningProcess, emittedWithTransition);
 			else {
 				await this.#serveProcess(currentRunningProcess, null);
 				this.#segments.push(emittedProcess);
@@ -164,7 +166,11 @@ class RoundRobin extends EventEmitter {
 				}
 			}
 
-			if (emittedProcess) this.emit('draw', emittedProcess); // notify the GUI every one second
+			if (emittedProcess){ 
+				this.emit('draw', emittedProcess); // notify the GUI every one second
+				emittedProcess.start = emittedProcess.end;
+				emittedProcess.end++;
+		}
 			RunningProcess.consumedTime++;
 			if (RunningProcess.consumedTime % this.#QuantumTime === 0) {
 				break;
