@@ -58,11 +58,12 @@ class nonPreemptive extends Scheduler {
       );
       // Sort processes by priority
       filteredProcesses.sort((a, b) => {
-        if (!(a[SortingParam] - b[SortingParam])) {
-          return a.processId - b.processId;
-        } else {
-          return a[SortingParam] - b[SortingParam];
-        }
+        // if (!(a[SortingParam] - b[SortingParam])) {
+        //   return a.arrivalTime - b.arrivalTime;
+        // } else {
+        //   return a[SortingParam] - b[SortingParam];
+        // }
+        return a[SortingParam] - b[SortingParam] ? a[SortingParam] - b[SortingParam] : a.arrivalTime - b.arrivalTime? a.arrivalTime - b.arrivalTime : a.processId - b.processId;
       });
 
       // Check if there are any processes that have arrived
