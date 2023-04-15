@@ -1,10 +1,10 @@
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog, Menu} = require('electron');
 const {join} = require('path');
 
 let mainWindow;
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
-        minWidth: 800,
+        minWidth: 900,
         minHeight: 600,
         backgroundColor: '#E4DCCF',
         show: false,
@@ -27,3 +27,5 @@ ipcMain.on('gotoMainWindow', (event) => {
 ipcMain.on('error', (event, error) => {
     dialog.showErrorBox('Error', error);
 })
+
+Menu.setApplicationMenu(null);

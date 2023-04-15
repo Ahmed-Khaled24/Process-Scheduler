@@ -160,10 +160,6 @@ img {
 }
 
 /* Chart */
-.gantt-chart{
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
 #chart-container {
     padding: 20px;
     display: flex;
