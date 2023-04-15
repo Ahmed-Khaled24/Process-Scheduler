@@ -26,10 +26,11 @@ function printProcessesInfo(processes) {
 // start Time of the algorithm
 let startTime = Date.now();
 let proceses = initializeProcesses(4);
+let testProcesses = [new InputProcess(1,0,3,0)];
 printProcessesInfo(proceses);
 
 let algo = new RoundRobin([], 2);
-proceses.forEach((process) => {
+testProcesses.forEach((process) => {
 	algo.appendToQueue(process);
 });
 algo.Run();
@@ -55,7 +56,7 @@ algo.on('done', (Time) => {
 setTimeout(() => {
 	let processNew = new InputProcess(4, 10, 5, 0, 0);
 	algo.appendToQueue(processNew);
-}, 2000);
+}, 5000);
 // setInterval(()=>{
 
 // })

@@ -52,7 +52,7 @@ class RoundRobin extends EventEmitter {
 			if (!Live) clearInterval(CheckNewComingProcesses);
 
 			if (this.#QnewProcesses.length) {
-				for (let i = 0; i < this.#QnewProcesses.length; i++) {
+				for (;this.#QnewProcesses.length;) {
 					if (!this.#ReferenceTimeSetted) {
 						this.#ReferenceTimeSetted = true;
 						this.#ReferenceTime = this.#QnewProcesses[0].arrivalTime;
@@ -62,6 +62,7 @@ class RoundRobin extends EventEmitter {
 						this.#QProcesses.push(this.#QnewProcesses[0]);
 						this.#QnewProcesses.shift();
 						this.#totalProcesses++;
+
 					} else break;
 				}
 			}
@@ -95,8 +96,13 @@ class RoundRobin extends EventEmitter {
 					currentRunningProcess.burstTime;
 			}
 
+			if(!this.#QnewProcesses.length && drawAll && !this.#QProcesses.length){
+				break;
+			}
+			
 			let counter = 0;
 			while (!this.#QProcesses.length && counter < 10) {
+				this.#ReferenceTimeSetted = false;
 				// wait 10 second until a new process come to the Q or terminate!
 				await this.#wait(1000);
 				this.#ReferenceTime++;
