@@ -206,14 +206,10 @@ function createChartSegment(process /* InputProcess */) {
     return chartDiv;
 }
 function runSelectedScheduler(live /* Boolean */){
-	if(algorithmTitle === 'non-preemptive priority'){
+	if(algorithmTitle.includes('priority')){
 		scheduler.start( {Algorithm: 'priority', Live: live} );
-	} else if(algorithmTitle === 'preemptive priority'){
-		scheduler.PreemptivePriority(live);
-	} else if(algorithmTitle === 'preemptive shortest job first (sjf)'){
+	} else if(algorithmTitle.includes('sjf')){
 		scheduler.start({Algorithm: 'sjf', Live: live});
-	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
-		scheduler.start( {Algorithm: 'sjf', Live: live} );
 	} else if(algorithmTitle === 'round robin'){
 		scheduler.Run(!live);
 	} else if(algorithmTitle === 'first come first serve (fcfs)'){
@@ -234,10 +230,8 @@ function terminateAlgorithm(){
 function schedulerFactory(title){
 	if(title.includes('non-preemptive') || title.includes('fcfs')){
 		return new NonPreemptive([]);
-	} else if(title === 'preemptive shortest job first (sjf)'){
+	} else if(title.includes('preemptive')){
 		return new Preemptive([]);
-	}else if(title.includes('preemptive')){
-		return new Scheduler([]); // to be refactored
 	} else if(title.includes('round robin')){
 		return new RoundRobin([], 1);
 	}
