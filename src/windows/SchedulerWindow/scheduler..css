@@ -167,10 +167,11 @@ img {
 #chart-container {
     padding: 20px;
     display: flex;
-    flex-wrap: wrap;
+    overflow-x: auto;
     gap: 10px;
 }
 .chart-segment{
+    flex-shrink: 0;
     width: 70px;
     color: white;
     height: 50px;
@@ -211,3 +212,26 @@ img {
 .final-calculations span{
     font-weight: bolder;
 }
+
+/* Scroll bar */
+/* Style the scrollbar track */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius:  5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  

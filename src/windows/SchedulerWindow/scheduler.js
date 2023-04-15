@@ -87,6 +87,7 @@ function configureChart() {
 	let curProcess = null;
 	let curProcessDiv = null;
 	startBtn.addEventListener('click', async () => {
+		liveInput.disabled = true;
 		if(algorithmTitle === 'round robin'){
 			if(!quantum){ // quantum time not set
 				ipcRenderer.send('error', 'quantum time not set');
@@ -131,6 +132,7 @@ function configureChart() {
 			}
 			chartContainer.appendChild(curProcessDiv);
 		}
+		chartScroll();
 	});
 	scheduler.on('drawAll', (processes) => {
 		processes.forEach((process) => {
@@ -242,6 +244,9 @@ function schedulerFactory(title){
 }
 function toggleColor(){
     curColor === colors[0] ? curColor = colors[1] : curColor = colors[0];
+}
+function chartScroll(){
+	chartContainer.scrollLeft = chartContainer.scrollWidth;
 }
 
 // Main
