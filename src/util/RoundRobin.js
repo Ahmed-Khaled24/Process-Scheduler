@@ -42,6 +42,16 @@ class RoundRobin extends EventEmitter {
 				this.#ReferenceTimeSetted = true;
 			}
 			this.#QnewProcesses.shift();
+			while(this.#QnewProcesses.length){
+				if(this.#QnewProcesses[0].arrivalTime===this.#ReferenceTime){
+					this.#QProcesses.push(this.#QnewProcesses[0]);
+					this.#QnewProcesses.shift();
+					this.#totalProcesses++;
+				}
+				else
+					break;
+			}
+
 		}
 
 		const CheckNewComingProcesses = setInterval(() => {
@@ -49,10 +59,10 @@ class RoundRobin extends EventEmitter {
 			// them @ the correct arrival time
 			// taking onto consideration the life status of the algorithm
 			// and processes that can come at the same arrival time!
-			if (!Live) clearInterval(CheckNewComingProcesses);
+			if (!Live && drawAll) clearInterval(CheckNewComingProcesses);
 
 			if (this.#QnewProcesses.length) {
-				for (let i = 0; i < this.#QnewProcesses.length; i++) {
+				for (;this.#QnewProcesses.length;) {
 					if (!this.#ReferenceTimeSetted) {
 						this.#ReferenceTimeSetted = true;
 						this.#ReferenceTime = this.#QnewProcesses[0].arrivalTime;
@@ -62,6 +72,7 @@ class RoundRobin extends EventEmitter {
 						this.#QProcesses.push(this.#QnewProcesses[0]);
 						this.#QnewProcesses.shift();
 						this.#totalProcesses++;
+
 					} else break;
 				}
 			}
@@ -74,12 +85,14 @@ class RoundRobin extends EventEmitter {
 			let currentRunningProcess = this.#QProcesses[0];
 			this.#QProcesses.shift();
 
+			let emittedWithTransition = new GUIProcess(currentRunningProcess.processId,
+														this.#ReferenceTime,this.#ReferenceTime+1);
 			let emittedProcess = new GUIProcess(
 				currentRunningProcess.processId,
 				this.#ReferenceTime,
 				this.#getEndTime(currentRunningProcess) + this.#ReferenceTime
 			);
-			if (!drawAll) await this.#serveProcess(currentRunningProcess, emittedProcess);
+			if (!drawAll) await this.#serveProcess(currentRunningProcess, emittedWithTransition);
 			else {
 				await this.#serveProcess(currentRunningProcess, null);
 				this.#segments.push(emittedProcess);
@@ -95,8 +108,13 @@ class RoundRobin extends EventEmitter {
 					currentRunningProcess.burstTime;
 			}
 
+			if(!this.#QnewProcesses.length && drawAll && !this.#QProcesses.length){
+				break;
+			}
+			
 			let counter = 0;
-			while (!this.#QProcesses.length && counter < 10) {
+			while (!this.#QProcesses.length && counter < 10 && !drawAll) {
+				this.#ReferenceTimeSetted = false;
 				// wait 10 second until a new process come to the Q or terminate!
 				await this.#wait(1000);
 				this.#ReferenceTime++;
@@ -127,9 +145,32 @@ class RoundRobin extends EventEmitter {
 				break;
 			}
 			const waitTime = 1000;
-			await this.#wait(waitTime);
+			if(emittedProcess)
+				await this.#wait(waitTime);
+			
 			this.#ReferenceTime++;
-			if (emittedProcess) this.emit('draw', emittedProcess); // notify the GUI every one second
+			
+			if (this.#QnewProcesses.length) {
+				for (;this.#QnewProcesses.length;) {
+					if (!this.#ReferenceTimeSetted) {
+						this.#ReferenceTimeSetted = true;
+						this.#ReferenceTime = this.#QnewProcesses[0].arrivalTime;
+					}
+
+					if (this.#QnewProcesses[0].arrivalTime === this.#ReferenceTime) {
+						this.#QProcesses.push(this.#QnewProcesses[0]);
+						this.#QnewProcesses.shift();
+						this.#totalProcesses++;
+
+					} else break;
+				}
+			}
+
+			if (emittedProcess){ 
+				this.emit('draw', emittedProcess); // notify the GUI every one second
+				emittedProcess.start = emittedProcess.end;
+				emittedProcess.end++;
+		}
 			RunningProcess.consumedTime++;
 			if (RunningProcess.consumedTime % this.#QuantumTime === 0) {
 				break;

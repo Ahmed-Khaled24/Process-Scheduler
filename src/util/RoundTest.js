@@ -8,7 +8,7 @@ function initializeProcesses(num_processes) {
 	for (let index = 0; index < num_processes; index++) {
 		const proceses = new InputProcess(
 			index,
-			Date.now() - startTime + index,
+			Date.now() - startTime ,
 			Math.floor(Math.random() * 5 + 1),
 			index
 		);
@@ -26,13 +26,16 @@ function printProcessesInfo(processes) {
 // start Time of the algorithm
 let startTime = Date.now();
 let proceses = initializeProcesses(4);
+
+let tempP = [new InputProcess(1,0,3,0,0),new InputProcess(2,0,5,0,0),new InputProcess(3,0,7,0,0)];
+let testProcesses = [new InputProcess(1,0,3,0)];
 printProcessesInfo(proceses);
 
 let algo = new RoundRobin([], 2);
-proceses.forEach((process) => {
+tempP.forEach((process) => {
 	algo.appendToQueue(process);
 });
-algo.Run();
+algo.Run(true);
 
 let tester = [];
 algo.on('draw', (segment) => {
@@ -55,7 +58,7 @@ algo.on('done', (Time) => {
 setTimeout(() => {
 	let processNew = new InputProcess(4, 10, 5, 0, 0);
 	algo.appendToQueue(processNew);
-}, 2000);
+}, 5000);
 // setInterval(()=>{
 
 // })
