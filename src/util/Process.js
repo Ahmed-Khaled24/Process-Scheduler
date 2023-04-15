@@ -1,10 +1,11 @@
 class InputProcess {
+    endTime;
     constructor(processId, arrivalTime, burstTime, priority, quantum) {
         this.processId = processId;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-        // this.quantum = quantum;
+        this.burstTimeObsolete = burstTime;
         this.consumedTime = 0;
     }
     toString(){

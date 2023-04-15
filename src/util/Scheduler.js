@@ -1,5 +1,5 @@
 const { EventEmitter } = require("stream");
-const { GUIProcess } = require("../util/Process");
+const { GUIProcess ,TimeCalculation} = require("../util/Process");
 
 function promiseWait(ms) {
 	return new Promise((resolve) => {
@@ -14,6 +14,7 @@ class Scheduler extends EventEmitter {
 		super();
 		this.inputProcesses = inputProcesses;
 		this.count = 0;
+		this.totalProcesses = [...this.inputProcesses];
 	}
 
 	async PreemptiveSJF(live) {
@@ -88,9 +89,113 @@ class Scheduler extends EventEmitter {
 		if (!live) this.emit('drawAll', resultArr);
 	}
 
-	appendToQueue(process) {
-		this.inputProcesses.push(process);
-	}
+	async PreemptivePriority(live) {
+        // Helper flags
+        let CPU = false;
+        let currentProcess = null;
+        let timeout = 0;
+        let emittedProcess = null;
+        let resultArr = [];
+
+        // Main Loop
+        while (true) {
+            // Check if all processes are done
+            if (this.inputProcesses.length == 0) {
+                timeout++;
+            } else {
+                timeout = 0;
+            }
+            // Break if timeout is reached
+            if (timeout === 10) {
+                this.emit("done", new TimeCalculation(this.calcWaitingTime(), this.calcTurnAroundTime()));
+                break;
+            }
+            // Filter processes that have arrived
+            let filteredProcesses = this.inputProcesses.filter(
+                (process) => process.arrivalTime <= this.count
+            );
+            // Sort processes by priority
+            filteredProcesses.sort((a, b) => a.priority - b.priority);
+
+            // Check if there are any processes that have arrived
+            if (filteredProcesses.length == 0) {
+                // cpu here will be free
+            } else if (currentProcess === null) {
+                currentProcess = {
+                    process: filteredProcesses[0],
+                    start: this.count,
+                    end: this.count + filteredProcesses[0].burstTime,
+                };
+                emittedProcess = new GUIProcess(currentProcess.process.processId, this.count, this.count + 1);
+                CPU = true;
+
+            } else {
+                // Check if current process is done
+                if (this.count == currentProcess.end) {
+                    process = this.totalProcesses.filter((process) => process.processId == currentProcess.process.processId);
+                    process[0].endTime = currentProcess.end;
+                    this.inputProcesses = this.inputProcesses.filter(
+                        (process) => process.processId !== currentProcess.process.processId
+                    );
+                    currentProcess = null;
+                    CPU = false;
+                    continue;
+                } else {
+                    filteredProcesses = this.inputProcesses.filter(
+                        (process) => process.arrivalTime <= this.count
+                    );
+                    // Sort processes by priority
+                    filteredProcesses.sort((a, b) => a.priority - b.priority);
+                    if (filteredProcesses[0].processId !== currentProcess.process.processId) {
+                        currentProcess = {
+                            process: filteredProcesses[0],
+                            start: this.count,
+                            end: this.count + filteredProcesses[0].burstTime,
+                        };
+                    }
+                    emittedProcess = new GUIProcess(currentProcess.process.processId, this.count, this.count + 1);
+                }
+            }
+            // Emit event
+            if (emittedProcess) {
+                if (live) this.emit("draw", emittedProcess);
+                resultArr = [...resultArr, emittedProcess];
+                emittedProcess = null;
+            }
+
+            // Wait for 1 second if live option selected
+            if (live) {
+                await promiseWait(1000);
+                if (currentProcess !== null && currentProcess.process !== null)
+                    currentProcess.process.burstTime--;
+            }
+            // Increment time
+            this.count++;
+        }
+
+        if (!live) {
+            this.emit("drawAll", resultArr);
+        }
+    }
+
+    appendToQueue(process) {
+        this.inputProcesses.push(process);
+		this.totalProcesses.push(process);
+    }
+    calcTurnAroundTime() {
+        let sum = 0;
+        for (let i = 0; i < this.totalProcesses.length; i++) {
+            sum += (this.totalProcesses[i].endTime - this.totalProcesses[i].arrivalTime)
+        }
+        return sum / this.totalProcesses.length;
+    }
+    calcWaitingTime() {
+        let sum = 0;
+        for (let i = 0; i < this.totalProcesses.length; i++) {
+			sum += (this.totalProcesses[i].endTime - this.totalProcesses[i].arrivalTime - this.totalProcesses[i].burstTimeObsolete);
+        }
+        return sum / this.totalProcesses.length;
+    }
 
 	formatCalculation(processes /* GUIProcess Array */) {
 		let formattedArr = {};
@@ -104,7 +209,6 @@ class Scheduler extends EventEmitter {
 		}
 		return formattedArr;
 	}
-
 	calculateAvgWaitingTime(processes /* Formatted Array */) {
 		let totalWaitingTime = 0;
 		for (const processId in processes) {
