@@ -206,7 +206,7 @@ function runSelectedScheduler(live /* Boolean */){
 	if(algorithmTitle === 'non-preemptive priority'){
 		scheduler.start( {Algorithm: 'priority', Live: live} );
 	} else if(algorithmTitle === 'preemptive priority'){
-		// to be connected
+		scheduler.PreemptivePriority(live);
 	} else if(algorithmTitle === 'preemptive shortest job first (sjf)'){
 		scheduler.PreemptiveSJF(live);
 	} else if (algorithmTitle === 'non-preemptive shortest job first (sjf)') {
