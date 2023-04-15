@@ -46,7 +46,7 @@ ___
 | Name                 	| Email                     	|
 |----------------------	|---------------------------	|
 | Ahmed Khaled         	| ahmedkhaled.m24@gmail.com 	|
-| Ahmed El Sayed       	| ahmedeltop968@gmail.com   	|
+| Ahmed El Sayed       	| ahmed.elsayed.cse@gmail.com   	|
 | Abd-El-Rahman Nasser 	| abdonasser865@gmail.com   	|
 | Bassel Khaled        	| basselkhal@gmail.com      	|
 | Omar Fahmy           	| ofahmy1234@gmail.com      	|
