@@ -1,7 +1,8 @@
 # Process scheduler
-This program is based on Electron.
+### Desktop cross-platform application that demonstrates the most popular CPU scheduling algorithms used in many operating systems.
 
-It's main function is to show how processes are being scheduled and their average and turnaround time on the CPU using many different scheduling algorithms which are:
+## Functionality details:
+The app's main function is to show how processes are being scheduled and their average and turnaround time on the CPU using many different scheduling algorithms which are:
 * **[FCFS](https://www.educative.io/answers/first-come-first-served-fcfs-scheduling-algorithm)
  (First Come First Serve).**
 * **[Non-Preemptive SJF](https://www.guru99.com/shortest-job-first-sjf-scheduling.html) (non-preemptive Shortest Job first).**
@@ -11,7 +12,30 @@ It's main function is to show how processes are being scheduled and their averag
 * **[Round Robin](https://www.guru99.com/round-robin-scheduling-example.html).**
 
 All of those algorithms are used widely in many different systems.
-___
+
+## Quick demo:
+![app-demo](./images/demo.gif)
+
+## Getting started
+**Note**: before following the instruction make sure that [Node.js](https://nodejs.org/en) 18 or above installed on your machine.
+1. Open your terminal
+2. Clone the repo:
+   ```
+    git clone https://github.com/Ahmed-Khaled24/Process-Schedular
+    ```
+3. Enter the directory: 
+   ``` 
+    cd Process-Scheduler
+   ```
+4. Install the needed node packages: 
+   ```
+   npm install
+   ```
+5. Open the application: 
+   ```
+   npm start
+   ```
+
 ## Describing The Interface
 The interface of the program has a main page which you will see directly after opening it.
 ![Main Interface](./images/main-interface.png)
@@ -33,11 +57,3 @@ All other Algorithms are working in the same way like those examples in images a
 *  round robin scheduler has additional field to add the quantum time.
 
 **Caution:** Take care the program will terminate if it stayed 10 seconds without any process running on it (as timeout to save resources).
-___
-## Local Development Installation
-1. Open your terminal
-2. Clone the repo: git clone https://github.com/Ahmed-Khaled24/Process-Schedular
-3. Enter the directory: cd Process-Schedular
-4. Install the needed node packages: npm install
-5. Open the application to see instant changes while you're working: npm start
----
