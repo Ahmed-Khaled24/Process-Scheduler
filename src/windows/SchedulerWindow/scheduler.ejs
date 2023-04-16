@@ -20,7 +20,7 @@
 				<% if(roundRobin){ %>
 					<div>
 						<form id="quantum-form">
-							<input type="text" id="quantum" placeholder="Quantum" required pattern="^[0-9]+$" title="Numbers Only"> 
+							<input type="text" id="quantum" placeholder="Quantum" required pattern="^[1-9]+$" title="Numbers Only 1 to 9"> 
 							<button id="quantum-btn" title="set quantum" type="submit"> Set </button>
 						</form>
 					</div>
@@ -33,22 +33,22 @@
 				<input
 					id="arrival-time"
 					placeholder="Arrival Time"
-					title="Numbers only"
+					title="Numbers only 0 to 9"
 					pattern="^[0-9]+$"
 					required
 				/>
 				<input
 					id="burst-time"
 					placeholder="Burst Time"
-					title="Numbers only"
-					pattern="^[0-9]+$"
+					title="Numbers only 1 to 9"
+					pattern="^[1-9]+$"
 					required
 				/>
 				<% if(priority) { %>
 					<input
 						id="priority"
 						placeholder="Priority"
-						title="Numbers only"
+						title="Numbers only 0 to 9"
 						pattern="^[0-9]+$"
 						required
 					/>
