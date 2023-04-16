@@ -41,6 +41,10 @@ class RoundRobin extends EventEmitter {
 
 		let sumTurnAround = 0;
 		let sumWaitingTime = 0;
+		this.#QnewProcesses.sort((a,b)=>a.burstTime-b.burstTime);
+		while(!this.#QnewProcesses[0].burstTime)
+			this.#QnewProcesses.shift();
+
 		this.#QnewProcesses.sort((a,b)=>a.arrivalTime-b.arrivalTime);
 		this.#ReferenceTime = this.#QnewProcesses[0].arrivalTime;
 		this.#totalProcesses = this.#QnewProcesses.length;
@@ -137,13 +141,17 @@ class RoundRobin extends EventEmitter {
 			// taking onto consideration the life status of the algorithm
 			// and processes that can come at the same arrival time!
 			if (!Live) clearInterval(CheckNewComingProcesses);
-
+			this.#QnewProcesses.sort((a,b)=>a.arrivalTime-b.arrivalTime);
 			while(this.#QnewProcesses.length) {
+				if(!this.#QnewProcesses[0].burstTime){
+					this.#QnewProcesses.shift();
+					continue;
+				}
 				if (!this.#ReferenceTimeSetted) {
 					this.#ReferenceTimeSetted = true;
 					this.#ReferenceTime = this.#QnewProcesses[0].arrivalTime;
 				}
-
+				
 				if (this.#QnewProcesses[0].arrivalTime <= this.#ReferenceTime) {
 					this.#QProcesses.push(this.#QnewProcesses[0]);
 					this.#QnewProcesses.shift();
@@ -160,6 +168,7 @@ class RoundRobin extends EventEmitter {
 
 			let emittedWithTransition = new GUIProcess(currentRunningProcess.processId,
 														this.#ReferenceTime,this.#ReferenceTime+1);
+														
 			await this.#serveProcessEveryOneSecond(currentRunningProcess, emittedWithTransition);
 			
 
