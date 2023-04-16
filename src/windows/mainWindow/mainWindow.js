@@ -1,4 +1,5 @@
  const {readFileSync, writeFileSync} = require('fs');
+ const {join} = require('path');
  const {ipcRenderer} = require('electron');
  const exitBtn = document.getElementById('exit');
  const nextBtn = document.getElementById('next');
@@ -10,7 +11,8 @@
  })
 
  nextBtn.addEventListener('click', () => {
-    const schedulerTemplate = readFileSync('./src/windows/SchedulerWindow/scheduler.ejs', 'utf-8');
+    const path = join(__dirname, '../SchedulerWindow/scheduler.');
+    const schedulerTemplate = readFileSync(`${path}ejs`, 'utf-8');
     let renderedTemplate = null;
     let schedulerType = null;
     for(let algoType of algoTypes) {
@@ -75,7 +77,7 @@
             break;
         }
     }
-    writeFileSync('./src/windows/SchedulerWindow/scheduler.html', renderedTemplate, {encoding: 'utf-8', flag: 'w'});
+    writeFileSync(`${path}html`, renderedTemplate, {encoding: 'utf-8', flag: 'w'});
     ipcRenderer.send('gotoAlgorithmWindow');
 });
 

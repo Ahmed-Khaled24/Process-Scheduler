@@ -10,9 +10,7 @@
   },
   "build": {
     "executableName": "Process Schedular",
-    "icon": "assets/icon.ico",
-    "extraFiles": ["./src/windows/SchedulerWindow/scheduler.ejs"],
-    "asarUnpack" : ["./assets"]
+    "icon": "assets/icon.ico"
   },
   "repository": {
     "type": "git",

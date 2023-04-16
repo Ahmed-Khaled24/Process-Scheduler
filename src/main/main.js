@@ -28,4 +28,4 @@ ipcMain.on('error', (event, error) => {
     dialog.showErrorBox('Error', error);
 })
 
-Menu.setApplicationMenu(null);
+// Menu.setApplicationMenu(null);
