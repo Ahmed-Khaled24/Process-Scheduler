@@ -124,6 +124,10 @@ class RoundRobin extends EventEmitter {
 			}
 			this.#QnewProcesses.shift();
 			while(this.#QnewProcesses.length){
+				if(!this.#QnewProcesses[0].burstTime){
+					this.#QnewProcesses.shift();
+					continue;
+				}
 				if(this.#QnewProcesses[0].arrivalTime === this.#ReferenceTime){
 					this.#QProcesses.push(this.#QnewProcesses[0]);
 					this.#QnewProcesses.shift();
