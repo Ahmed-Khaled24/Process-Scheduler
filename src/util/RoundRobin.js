@@ -56,7 +56,8 @@ class RoundRobin extends EventEmitter {
 										this.#ReferenceTime+this.#getEndTime(runningProcess));
 			
 			this.#serveProcessWithDrawAll(runningProcess);
-			this.#segments.push(segment);
+			if(segment.start !== segment.end)
+				this.#segments.push(segment);
 			if(runningProcess.consumedTime < runningProcess.burstTime)
 				this.#QProcesses.push(runningProcess);
 			else{
@@ -152,7 +153,7 @@ class RoundRobin extends EventEmitter {
 			}
 		
 		}, 1000);
-		
+
 		while (this.#QProcesses.length) {
 			let currentRunningProcess = this.#QProcesses[0];
 			this.#QProcesses.shift();
