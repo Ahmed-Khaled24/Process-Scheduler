@@ -12,7 +12,7 @@
     "executableName": "Process Schedular",
     "icon": "assets/icon.ico",
     "asar": true,
-    "asarUnpack": "./src/windows/SchedulerWindow"
+    "asarUnpack": ["./src/windows/SchedulerWindow", "./assets", "./lib"]
   },
   "repository": {
     "type": "git",
