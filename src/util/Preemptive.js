@@ -104,11 +104,12 @@ class Preemptive extends Scheduler {
             emittedProcess = null;
         }
 
+        if (currentProcess !== null && currentProcess.process !== null){
+            currentProcess.process.burstTime--;
+          }
         // Wait for 1 second if live option selected
         if (live) {
             await promiseWait(1000);
-            if (currentProcess !== null && currentProcess.process !== null)
-                currentProcess.process.burstTime--;
         }
         // Increment time
         this.count++;
