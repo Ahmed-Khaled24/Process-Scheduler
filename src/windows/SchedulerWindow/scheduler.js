@@ -1,4 +1,4 @@
-const Scheduler = require('../../util/Scheduler');
+const randomColor = require('randomcolor');
 const NonPreemptive = require('../../util/NonPreemptive');
 const Preemptive = require('../../util/Preemptive');
 const RoundRobin = require('../../util/RoundRobin');
@@ -24,9 +24,7 @@ const quantumForm = document.getElementById('quantum-form');
 const quantumInput = document.getElementById('quantum');
 let table = null;
 const scheduler = schedulerFactory(algorithmTitle);
-const colors = ['#002B5B', '#EA5455'];
-let curColor = colors[0];
-
+const colors = [];
 
 
 // Handle back button
@@ -194,10 +192,14 @@ function disableStartBtn(){
     startBtn.classList.add('disabled-btn');
 }
 function createChartSegment(process /* InputProcess */) {
+	const processId = Number(process.processId);
+	const color = null;
     chartDiv = document.createElement('div');
     chartDiv.classList.add('chart-segment');
-    chartDiv.style.backgroundColor = curColor;
-    toggleColor();
+	if(!colors[processId]){
+		colors[processId] = generateColor();
+	}
+	chartDiv.style.backgroundColor = colors[processId];
     chartDiv.innerHTML = `
         <p class="chart-segment-start-time">${process.start}</p>
         <p class="chart-segment-end-time">${process.end}</p>
@@ -236,8 +238,12 @@ function schedulerFactory(title){
 		return new RoundRobin([], 1);
 	}
 }
-function toggleColor(){
-    curColor === colors[0] ? curColor = colors[1] : curColor = colors[0];
+function generateColor(){
+    return randomColor({
+		luminosity: 'dark',
+		format: 'hex',
+		hue: 'random'
+	})
 }
 function chartScroll(){
 	chartContainer.scrollLeft = chartContainer.scrollWidth;
