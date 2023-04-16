@@ -35,7 +35,7 @@ let algo = new RoundRobin([], 2);
 tempP.forEach((process) => {
 	algo.appendToQueue(process);
 });
-algo.Run(true);
+algo.Run(false);
 
 let tester = [];
 algo.on('draw', (segment) => {
