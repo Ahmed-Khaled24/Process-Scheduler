@@ -1,4 +1,7 @@
-
+@font-face {
+    font-family: 'Lato';
+    src: url('../../../assets/Lato-Regular.ttf');
+}
 *{
     padding: 0;
     margin:0;
