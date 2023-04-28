@@ -25,6 +25,7 @@ const quantumInput = document.getElementById('quantum');
 let table = null;
 const scheduler = schedulerFactory(algorithmTitle);
 const colors = [];
+const remainingTime = [];
 
 
 // Handle back button
@@ -114,13 +115,18 @@ function configureChart() {
 	});
 	scheduler.on('draw', (receivedProcess /* GUIProcess */) => {
 		if (receivedProcess?.processId === curProcess?.processId) {
+			console.log(receivedProcess)
+			remainingTime[receivedProcess.processId]--;
 			// same as the running process
 			curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
 			for (let child of curProcessDiv.children) {
 				if (child.classList.contains('chart-segment-end-time')) {
 					child.innerText = receivedProcess.end;
+				} else if(child.classList.contains('segment-remaining-time')){
+					child.innerText = `RT: ${remainingTime[receivedProcess.processId]}`;
 				}
 			}
+
 		} else {
 			// new process
 			curProcess = receivedProcess;
@@ -167,6 +173,7 @@ function addNewProcess(){
     if (ALGORITHM_STARTED) {
         scheduler.appendToQueue(new InputProcess(PROCESS_ID, arrivalTime, burstTime, priority));
     }
+	remainingTime[PROCESS_ID] = burstTime;
     PROCESS_ID++;
 }
 function evacuateInputFields(){
@@ -191,9 +198,9 @@ function disableStartBtn(){
     startBtn.disabled = true;
     startBtn.classList.add('disabled-btn');
 }
-function createChartSegment(process /* InputProcess */) {
+function createChartSegment(process /* GUIProcess */) {
 	const processId = Number(process.processId);
-	const color = null;
+	remainingTime[processId]--;
     chartDiv = document.createElement('div');
     chartDiv.classList.add('chart-segment');
 	if(!colors[processId]){
@@ -203,7 +210,8 @@ function createChartSegment(process /* InputProcess */) {
     chartDiv.innerHTML = `
         <p class="chart-segment-start-time">${process.start}</p>
         <p class="chart-segment-end-time">${process.end}</p>
-        P${process.processId}
+        <p> P${process.processId} </p>
+		<p class="segment-remaining-time" title="remaining time"> RT: ${remainingTime[processId]}</p>
     `
     return chartDiv;
 }
