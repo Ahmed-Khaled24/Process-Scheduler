@@ -1,4 +1,3 @@
-const randomColor = require('randomcolor');
 const NonPreemptive = require('../../util/NonPreemptive');
 const Preemptive = require('../../util/Preemptive');
 const RoundRobin = require('../../util/RoundRobin');

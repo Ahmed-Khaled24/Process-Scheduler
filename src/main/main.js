@@ -18,8 +18,29 @@ app.on('ready', () => {
 }) 
 
 ipcMain.on('exit', (event) => {app.quit()});
-ipcMain.on('gotoAlgorithmWindow', (event) => {
-    mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/scheduler.html`)); 
+ipcMain.on('gotoAlgorithmWindow', (event, schedulerType) => {
+	let schedulerFile = null;
+	switch(schedulerType) {
+		case 'fcfs':
+			schedulerFile = 'FCFS';
+			break;
+		case 'non-sjf':
+			schedulerFile = 'SJF';
+			break;
+		case 'pre-sjf':
+			schedulerFile = 'SJF-P';
+			break;
+		case 'non-priority':
+			schedulerFile = 'P';
+			break;
+		case 'pre-priority':
+			schedulerFile = 'P-P';
+			break;
+		case 'round-robin':
+			schedulerFile = 'RR';
+			break;
+	}
+    mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/${schedulerFile}.html`)); 
 });
 ipcMain.on('gotoMainWindow', (event) => {
     mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));

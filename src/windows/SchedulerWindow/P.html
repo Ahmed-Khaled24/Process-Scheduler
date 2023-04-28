@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./scheduler..css" />
+		<link rel="stylesheet" href="../../../lib/tabulator.min.css" />
+		<title> Non-Preemptive Priority </title>
+	</head>
+	<body>
+		<div class="header">
+			<img src="../../../assets/back-btn.svg" alt="back" id="back-btn" title="Go back" />
+			<h1> Non-Preemptive Priority </h1>
+			<div id="header-options">
+				<div>
+					<input type="checkbox" value="live" id="live"> 
+					<label for="live"> Live Result</label>
+				</div>
+			</div>
+		</div>
+		<section class="add-process-form">
+			<p class="title">Add New Process</p>
+			<form id="new-process-form">
+				<input
+					id="arrival-time"
+					placeholder="Arrival Time"
+					title="Numbers only 0 to 9"
+					pattern="^[0-9]+$"
+					required
+				/>
+				<input
+					id="burst-time"
+					placeholder="Burst Time"
+					title="Numbers only 1 to 9"
+					pattern="^[1-9]+$"
+					required
+				/>
+                <input
+                    id="priority"
+                    placeholder="Priority"
+                    title="Numbers only 0 to 9"
+                    pattern="^[0-9]+$"
+                    required
+                />
+				<button id="add-btn" type="submit">Add</button>
+			</form>
+		</section>
+		<section class="processes-table">
+			<p class="title">Processes Table</p>
+			<div id="processes-table">
+				<!-- filled by Tabulator library -->
+			</div>
+		</section>
+		<section class="gantt-chart">
+			<p class="title">Gantt Chart</p>
+			<div id="chart-container">
+				<!-- drawn by js -->
+			</div>
+		</section>
+		<section class="final-calculations">
+			<p class="title">turnaround and waiting time</p>
+			<p>Average Turnaround Time: <span id="avg-turnaround-result">━</span></p>
+			<p>Average Waiting Time: <span id="avg-waiting-result">━</span></p>
+		</section>
+		<div class="footer-buttons">
+			<button id="retry-btn">Retry</button>
+			<button id="start-btn">Start</button>
+		</div>
+		<script src="../../../lib/randomColor.min.js"></script>
+		<script src="../../../lib/tabulator.min.js"></script>
+		<script src="./scheduler.js"></script>
+	</body>
+</html>
