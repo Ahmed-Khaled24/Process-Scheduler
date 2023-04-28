@@ -6,13 +6,21 @@
  const ejs = require('ejs');
  const algoTypes = document.querySelectorAll('input[name="main-question"]');
 
+let appDataPath = null;
+ipcRenderer.send('giveMeAppDataPath');
+ipcRenderer.on('hereIsAppDataPath', (event, path) => {
+    appDataPath = path;
+});
+
  exitBtn.addEventListener('click', () => {
     ipcRenderer.send('exit');
  })
 
  nextBtn.addEventListener('click', () => {
-    const path = join(__dirname, '../SchedulerWindow/scheduler.');
-    const schedulerTemplate = readFileSync(`${path}ejs`, 'utf-8');
+    const schedulerTemplate = readFileSync(
+		join(__dirname, '../SchedulerWindow/scheduler.ejs'),
+		'utf-8'
+	);
     let renderedTemplate = null;
     let schedulerType = null;
     for(let algoType of algoTypes) {
@@ -77,7 +85,11 @@
             break;
         }
     }
-    writeFileSync(`${path}html`, renderedTemplate, {encoding: 'utf-8', flag: 'w'});
+    writeFileSync(
+		join(appDataPath, 'Process-Scheduler/src/windows/SchedulerWindow/scheduler.html'),
+		renderedTemplate,
+		{ encoding: 'utf-8', flag: 'w' }
+	);
     ipcRenderer.send('gotoAlgorithmWindow');
 });
 
