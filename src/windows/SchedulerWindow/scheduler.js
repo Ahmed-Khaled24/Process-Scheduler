@@ -185,11 +185,12 @@ function evacuateInputFields(){
 	}
 }
 function startArrivalTimeTimer(){
-    let timer = 0;
     arrivalTimeInput.disabled = true;
+    let timer = 1;
+	arrivalTimeInput.value = timer;
     arrivalTimeIntervalID = setInterval(() => {
+        timer++; 
         arrivalTimeInput.value = timer;
-        timer++;
     }, 1000);
 }
 function disableStartBtn(){
