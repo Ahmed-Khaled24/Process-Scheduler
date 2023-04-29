@@ -28,19 +28,19 @@ ipcMain.on('gotoAlgorithmWindow', (event, schedulerType) => {
 			schedulerFile = 'SJF';
 			break;
 		case 'pre-sjf':
-			schedulerFile = 'SJF-P';
+			schedulerFile = 'preemptiveSJF';
 			break;
 		case 'non-priority':
-			schedulerFile = 'P';
+			schedulerFile = 'priority';
 			break;
 		case 'pre-priority':
-			schedulerFile = 'P-P';
+			schedulerFile = 'preemptivePriority';
 			break;
 		case 'round-robin':
 			schedulerFile = 'RR';
 			break;
 	}
-    mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/${schedulerFile}.html`)); 
+    mainWindow.loadFile(join(__dirname,`../windows/SchedulerWindow/schedulers-html/${schedulerFile}.html`)); 
 });
 ipcMain.on('gotoMainWindow', (event) => {
     mainWindow.loadFile(join(__dirname,'../windows/mainWindow/mainWindow.html'));
