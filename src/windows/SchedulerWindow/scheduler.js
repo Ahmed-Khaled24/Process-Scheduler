@@ -114,9 +114,19 @@ function configureChart() {
 	});
 	scheduler.on('draw', (receivedProcess /* GUIProcess */) => {
 		if (receivedProcess?.processId === curProcess?.processId) {
-			remainingTime[receivedProcess.processId]--;
+			if(algorithmTitle.includes('round robin') && !(liveInput.checked)){ // round robin and not live
+				remainingTime[receivedProcess?.processId] -= (
+					remainingTime[receivedProcess?.processId] > quantum
+						? quantum
+						: remainingTime[receivedProcess?.processId]
+					);
+				curProcessDiv.style.width = `${curProcessDiv.offsetWidth + (WIDTH_UNIT * quantum)}px`;
+			} else {
+				remainingTime[receivedProcess.processId]--;
+				curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
+			}
 			// same as the running process
-			curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
+			
 			for (let child of curProcessDiv.children) {
 				if (child.classList.contains('chart-segment-end-time')) {
 					child.innerText = receivedProcess.end;
@@ -186,7 +196,10 @@ function evacuateInputFields(){
 }
 function startArrivalTimeTimer(){
     arrivalTimeInput.disabled = true;
-    let timer = 1;
+	let timer = 0;
+	if (algorithmTitle != 'round robin') {
+		timer = 1;
+	}
 	arrivalTimeInput.value = timer;
     arrivalTimeIntervalID = setInterval(() => {
         timer++; 
@@ -199,7 +212,15 @@ function disableStartBtn(){
 }
 function createChartSegment(process /* GUIProcess */) {
 	const processId = Number(process.processId);
-	remainingTime[processId]--;
+	if (algorithmTitle.includes('round robin') && !liveInput.checked) {
+		remainingTime[processId] -= (
+			remainingTime[processId] > quantum
+				? quantum
+				: remainingTime[processId]
+			);
+	} else {
+		remainingTime[processId]--;
+	}
     chartDiv = document.createElement('div');
     chartDiv.classList.add('chart-segment');
 	if(!colors[processId]){
