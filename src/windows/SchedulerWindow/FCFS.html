@@ -6,12 +6,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="./scheduler..css" />
 		<link rel="stylesheet" href="../../../lib/tabulator.min.css" />
-		<title> First Come First Served</title>
+		<title> First Come First Serve</title>
 	</head>
 	<body>
 		<div class="header">
 			<img src="../../../assets/back-btn.svg" alt="back" id="back-btn" title="Go back" />
-			<h1> First Come First Served (FCFS)</h1>
+			<h1> First Come First Serve (FCFS)</h1>
 			<div id="header-options">
 				<div>
 					<input type="checkbox" value="live" id="live"> 
@@ -32,8 +32,8 @@
 				<input
 					id="burst-time"
 					placeholder="Burst Time"
-					title="Numbers only 1 to 9"
-					pattern="^[1-9]+$"
+					title="Numbers only bigger than 0"
+					pattern="^[1-9]\d*$"
 					required
 				/>
 				<button id="add-btn" type="submit">Add</button>

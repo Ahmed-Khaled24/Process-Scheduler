@@ -114,7 +114,6 @@ function configureChart() {
 	});
 	scheduler.on('draw', (receivedProcess /* GUIProcess */) => {
 		if (receivedProcess?.processId === curProcess?.processId) {
-			console.log(receivedProcess)
 			remainingTime[receivedProcess.processId]--;
 			// same as the running process
 			curProcessDiv.style.width = `${curProcessDiv.offsetWidth + WIDTH_UNIT}px`;
