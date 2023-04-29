@@ -2,6 +2,10 @@
     font-family: 'Lato';
     src: url('../../../assets/Lato-Regular.ttf');
 }
+@font-face {
+    font-family: 'jetbrains mono';
+    src: url('../../../assets/JetBrainsMonoNL-Regular.ttf');
+}
 
 *{
     padding: 0;
@@ -179,6 +183,7 @@ img {
     justify-content: center;
     flex-direction: column;
     gap: 10px;
+    font-family: 'jetbrains mono';
 }
 .live-chart-segment{
     transition-property: width;
@@ -202,7 +207,7 @@ img {
     right: 0;
 }
 .segment-remaining-time{
-    font-weight: 300;
+    /* font-weight: 300; */
     font-size: 10px;
 }
 
@@ -230,7 +235,7 @@ img {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
-    border-radius:  5px;
+    border-radius:  50px;
   }
   
   /* Handle on hover */
