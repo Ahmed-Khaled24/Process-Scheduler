@@ -1,7 +1,7 @@
-const NonPreemptive = require('../../util/NonPreemptive');
-const Preemptive = require('../../util/Preemptive');
-const RoundRobin = require('../../util/RoundRobin');
-const {InputProcess} = require('../../util/Process');
+const NonPreemptive = require('../../../util/NonPreemptive');
+const Preemptive = require('../../../util/Preemptive');
+const RoundRobin = require('../../../util/RoundRobin');
+const {InputProcess} = require('../../../util/Process');
 const { ipcRenderer } = require('electron');
 
 
